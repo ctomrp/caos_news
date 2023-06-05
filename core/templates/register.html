@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<div class="form-template text-center mt-5">
+    <h1>Registrarse</h1>
+
+    <form class="row g-3" method="POST">
+        {% csrf_token %}
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Nombre"/>
+            <label for="name" class="form-label mx-2">Nombre</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Apellido"/>
+            <label for="name" class="form-label mx-2">Apellido</label>
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Correo electrónico"/>
+            <label for="email" class="form-label mx-2">Correo electrónico</label>
+        </div>
+        <div class="form-floating">
+            <input type="email2" class="form-control" id="email2" name="email2" required placeholder="Confirme correo electrónico"/>
+            <label for="email2" class="form-label mx-2">Confirme correo electrónico</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" required placeholder="Contraseña"/>
+            <label for="password" class="form-label mx-2">Contraseña</label>
+        </div>
+        <div class="form-floating">
+            <input type="password2" class="form-control" id="password2" name="password2" required placeholder="Confirme contraseña"/>
+            <label for="password2" class="form-label mx-2">Confirme contraseña</label>
+        </div>
+        <br><br><br>
+        <div class="col-12 btn-section">
+            <button class="btn btn-primary w-50" type="submit">Registrarse</button>
+            <button class="btn btn-secondary w-50" type="submit">Cancelar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

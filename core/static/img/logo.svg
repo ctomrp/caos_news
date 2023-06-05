@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100.26515mm"
+   height="100.26501mm"
+   viewBox="0 0 100.26515 100.26501"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="logo6.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="516.4465"
+     inkscape:cy="335.5536"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient5528">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop5524" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop5526" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5528"
+       id="linearGradient5530"
+       x1="34.298294"
+       y1="96.095143"
+       x2="107.0674"
+       y2="96.095143"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0000011,0,0,1.0000011,11.592086,21.111038)" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-32.142569,-71.761845)">
+    <path
+       style="fill:#f05742;stroke:#f05742;stroke-width:0.264999;stroke-opacity:1;fill-opacity:1"
+       id="path234"
+       sodipodi:type="arc"
+       sodipodi:cx="82.27507"
+       sodipodi:cy="121.89435"
+       sodipodi:rx="50"
+       sodipodi:ry="50"
+       sodipodi:start="0"
+       sodipodi:end="6.2796223"
+       sodipodi:arc-type="slice"
+       d="M 132.27507,121.89435 A 50,50 0 0 1 82.319608,171.89433 50,50 0 0 1 32.27515,121.98342 50,50 0 0 1 82.141458,71.894527 50,50 0 0 1 132.27475,121.7162 l -49.99968,0.17815 z" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50.8001px;font-family:Verdana;-inkscape-font-specification:'Verdana, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#fffdfc;fill-opacity:1;stroke:url(#linearGradient5530);stroke-width:0.264999;stroke-opacity:1"
+       x="83.35405"
+       y="135.67346"
+       id="text4981"><tspan
+         sodipodi:role="line"
+         id="tspan4979"
+         style="fill:#fffdfc;fill-opacity:1;stroke:url(#linearGradient5530);stroke-width:0.265;stroke-opacity:1"
+         x="83.35405"
+         y="135.67346">CN</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.5392px;font-family:Verdana;-inkscape-font-specification:'Verdana, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#fffdfc;fill-opacity:1;stroke:#ffffff;stroke-width:0.264999;stroke-opacity:1"
+       x="64.553772"
+       y="142.79982"
+       id="text5792"
+       transform="scale(0.9594719,1.04224)"><tspan
+         sodipodi:role="line"
+         id="tspan5790"
+         style="font-size:13.5392px;stroke-width:0.265"
+         x="64.553772"
+         y="142.79982">caos</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.9272px;font-family:Verdana;-inkscape-font-specification:'Verdana, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#fffdfc;fill-opacity:1;stroke:#ffffff;stroke-width:0.264999;stroke-opacity:1"
+       x="110.7552"
+       y="136.3701"
+       id="text5792-1"
+       transform="scale(0.91610098,1.0915827)"><tspan
+         sodipodi:role="line"
+         id="tspan5790-4"
+         style="font-size:12.9272px;stroke-width:0.265"
+         x="110.7552"
+         y="136.3701">news</tspan></text>
+  </g>
+</svg>

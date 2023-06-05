@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/*color: f05742ff */
+
+header, main, footer{
+    margin: auto;
+    width: 70vw;
+}
+
+a{
+    text-decoration: none;
+}
+
+.form-template, .form-template form{
+    height: 80vh;
+    margin: 0 auto;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+}
+
+.form-template form{
+    width: 80%;
+}
+
+.btn-section{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    margin: 0 auto;
+}
+
+.c-title{
+    font-weight: bold;
+}
+
+/* Estilos para pantallas medianas */
+@media screen and (max-width: 1200px) {
+    header, main, footer, .navbar{
+        width: 100vw;       
+    }
+
+    .form-template, .btn-section{
+        width: 100%;
+    }
+
+    header, main, footer, .form-template, .btn-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 0;
+        margin: auto;
+    }
+
+    .btn-section{
+        flex-direction: row;
+    }
+}
+
+/* Estilos para pantallas pequeñas */
+@media screen and (max-width: 800px) {
+    header, main, footer, .navbar{
+        width: 100vw;       
+    }
+
+    .form-template, .btn-section{
+        width: 100%;
+    }
+
+    header, main, footer, .form-template, .btn-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 0;
+        margin: auto;
+    }
+
+    footer{
+        display: none;
+    }
+}
+
+
+
