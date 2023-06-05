@@ -11,9 +11,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex align-items-center">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'index' %}">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
                     <img src="../../static/img/logo.svg" alt="Caos News logo" width="30" height="24">CAOS NEWS
                 </a>              
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,9 +70,9 @@
         {% endblock %}
     </main>
     <footer class="bg-body-tertiary text-center p-3">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary justify-content-between nav-footer">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex align-items-center">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
                     <img src="../../static/img/logo.svg" alt="Caos News logo" width="30" height="24">CAOS NEWS
                 </a>
 
