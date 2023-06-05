@@ -2,6 +2,10 @@
 
 /*color: f05742ff */
 
+body{
+    background-color: #f8f9fa;
+}
+
 header, main, footer{
     margin: auto;
     width: 70vw;
