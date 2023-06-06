@@ -37,10 +37,6 @@ a{
     margin: 0 auto;
 }
 
-.c-title{
-    font-weight: bold;
-}
-
 /* Estilos para pantallas medianas */
 @media screen and (max-width: 1200px) {
     header, main, footer, .navbar{
