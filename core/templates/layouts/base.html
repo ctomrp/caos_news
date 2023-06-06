@@ -7,73 +7,76 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="../../static/css/common.css">
     <link rel="shortcut icon" href="../../static/img/logo.svg" type="image/svg+xml">
+    <script defer src="../../static/script/common.js"></script>
     <title>Caos News</title>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex align-items-center">
-            <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
-                    <img src="../../static/img/logo.svg" alt="Caos News logo" width="30" height="24">CAOS NEWS
-                </a>              
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Portada</a>
-                  </li>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex align-items-center">
+          <div class="container-fluid">
+              <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                  <img src="../../static/img/logo.svg" alt="Caos News logo" width="30" height="24">CAOS NEWS
+              </a>              
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link " aria-current="page" href="{% url 'index' %}">Portada</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Noticias
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Cultura</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Comercio</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Deportes</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Entretenimiento</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Internacional</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Policial</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Política</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gallery' %}">Social</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " aria-current="page" href="{% url 'journalist' %}">Reporteros</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " aria-current="page" href="{% url 'contact' %}">Contacto</a>
+                </li>
+              </ul>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                <button class="btn btn-outline-primary shadow" type="submit">Buscar</button>
+              </form>
+              <ul class="navbar-nav me-0 mb-2 mb-lg-0">
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Noticias
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Cultura</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Comercio</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Deportes</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Entretenimiento</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Internacional</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Policial</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Política</a></li>
-                      <li><a class="dropdown-item" href="{% url 'gallery' %}">Social</a></li>
-                    </ul>
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'login' %}">Ingresar</a></li>
+                        <li><a class="dropdown-item" href="{% url 'register' %}">Registrarse</a></li>
+                      </ul>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Reporteros</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'contact' %}">Contacto</a>
-                  </li>
-                </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                  <button class="btn btn-outline-primary" type="submit">Buscar</button>
-                </form>
-                <ul class="navbar-nav me-0 mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Usuarios
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="{% url 'login' %}">Ingresar</a></li>
-                          <li><a class="dropdown-item" href="{% url 'register' %}">Registrarse</a></li>
-                        </ul>
-                    </li>
-                </ul>
-              </div>
+              </ul>
             </div>
-          </nav>
+          </div>
+        </nav>
+        <hr>
     </header>
     <main>
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="bg-body-tertiary text-center p-3">
+      <footer class="bg-body-tertiary text-center p-3">
+        <hr>
         <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex align-items-center">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
-                    <img src="../../static/img/logo.svg" alt="Caos News logo" width="30" height="24">CAOS NEWS
+                <img src="../../static/img/logo.svg" alt="Caos News logo" width="30" height="24">CAOS NEWS
                 </a>
 
                 <div>
@@ -85,16 +88,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-0 mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Nosotros</a>
+                            <a class="nav-link " aria-current="page" href="#">Nosotros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Política de Privacidad</a>
+                            <a class="nav-link " aria-current="page" href="#">Política de Privacidad</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Licencias</a>
+                            <a class="nav-link " aria-current="page" href="#">Licencias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'contact' %}">Contacto</a>
+                            <a class="nav-link " aria-current="page" href="{% url 'contact' %}">Contacto</a>
                         </li>
                     </ul>
                 </div>
@@ -102,7 +105,7 @@
             </div>
         </nav>
         <hr>
-        <span>© 2023 <a href="#">Caos News™</a>. Todos los derechos reservados.</span> 
+        <span>© 2023 <a href="index">Caos News™</a>. Todos los derechos reservados.</span> 
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
