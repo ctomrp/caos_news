@@ -5,32 +5,36 @@
 <div class="form-template text-center mt-5">
     <h1>Registrarse</h1>
     <br>
-    <form class="row g-3" method="POST">
+    <form class="row g-3" method="POST" action="" autocomplete="off">
         {% csrf_token %}
 
         <div class="form-floating">
-            <input type="text" class="form-control" id="name" name="name" required placeholder="Nombre"/>
-            <label for="name" class="form-label mx-2">Nombre</label>
+            <input type="text" class="form-control" id="usernameId" name="username" required placeholder="Username"/>
+            <label for="usernameId" class="form-label mx-2">Nombre Usuario</label>
         </div>
         <div class="form-floating">
-            <input type="text" class="form-control" id="name" name="name" required placeholder="Apellido"/>
-            <label for="name" class="form-label mx-2">Apellido</label>
+            <input type="text" class="form-control" id="nameId" name="name" required placeholder="Nombre"/>
+            <label for="nameId" class="form-label mx-2">Nombre</label>
         </div>
         <div class="form-floating">
-            <input type="email" class="form-control" id="email" name="email" required placeholder="Correo electrónico"/>
-            <label for="email" class="form-label mx-2">Correo electrónico</label>
+            <input type="text" class="form-control" id="lastNameId" name="last_name" required placeholder="Apellido"/>
+            <label for="lastNameId" class="form-label mx-2">Apellido</label>
         </div>
         <div class="form-floating">
-            <input type="email2" class="form-control" id="email2" name="email2" required placeholder="Confirme correo electrónico"/>
-            <label for="email2" class="form-label mx-2">Confirme correo electrónico</label>
+            <input type="email" class="form-control" id="emailId" name="email" required placeholder="Correo electrónico"/>
+            <label for="emailId" class="form-label mx-2">Correo electrónico</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="password" name="password" required placeholder="Contraseña"/>
-            <label for="password" class="form-label mx-2">Contraseña</label>
+            <input type="email2" class="form-control" id="emailId2" name="email2" required placeholder="Confirme correo electrónico"/>
+            <label for="emailId2" class="form-label mx-2">Confirme correo electrónico</label>
         </div>
         <div class="form-floating">
-            <input type="password2" class="form-control" id="password2" name="password2" required placeholder="Confirme contraseña"/>
-            <label for="password2" class="form-label mx-2">Confirme contraseña</label>
+            <input type="password" class="form-control" id="passwordId" name="password" required placeholder="Contraseña"/>
+            <label for="passwordId" class="form-label mx-2">Contraseña</label>
+        </div>
+        <div class="form-floating">
+            <input type="password2" class="form-control" id="passwordId2" name="password2" required placeholder="Confirme contraseña"/>
+            <label for="passwordId2" class="form-label mx-2">Confirme contraseña</label>
         </div>
         <br><br><br>
         <div class="col-12 btn-section">
