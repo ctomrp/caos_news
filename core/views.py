@@ -21,9 +21,6 @@ def gallery(request):
 
 def contact(request):
     return render(request, 'contact.html')
-@login_required
-def create_news(request):
-    return render(request, 'create_news.html')
 
 def news_detail(request):
     return render(request, 'news_detail.html')
@@ -87,7 +84,7 @@ def auth_login(request):
         user= authenticate(request,email=email,password=password)
         if user is not None:
             login(request,user)
-            return redirect('base_user.html')
+            return redirect('index')
         else:
             error='Correo o Contraseña incorrecta!'
             return render(request, 'login.html',{'error':error})
@@ -95,5 +92,9 @@ def auth_login(request):
         return render(request,'login.html')
     
 @login_required
-def base_user(request):
-    return(render(request,'layouts/base_user.html'))
+def create_news(request):
+    return render(request, 'create_news.html')
+
+def exit(request):
+    logout(request)
+    return redirect('auth_login')

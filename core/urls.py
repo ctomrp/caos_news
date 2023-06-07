@@ -15,5 +15,5 @@ urlpatterns = [
     path('recover_password/', recover_password, name='recover_password'),
     path('auth_register/',auth_register,name='auth_register'),
     path('auth_login/',auth_login,name='auth_login'),
-    path('base_user/',base_user,name='base_user'),
+    path('logout/',exit,name='exit'),
 ]
