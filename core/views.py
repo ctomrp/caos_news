@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .forms import RegistrationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.http import HttpResponse, HttpResponseRedirect
 
 def index(request):
     return render(request, 'index.html')
@@ -11,15 +13,15 @@ def index(request):
 def gallery(request):
     return render(request, 'gallery.html')
 
-def login(request):
-    return render(request, 'login.html')
+#def login(request):
+#    return render(request, 'login.html')
 
 #def register(request):
 #    return render(request, 'register.html')
 
 def contact(request):
     return render(request, 'contact.html')
-
+@login_required
 def create_news(request):
     return render(request, 'create_news.html')
 
@@ -37,6 +39,7 @@ def journalist(request):
 
 def recover_password(request):
     return render(request, 'recover_password.html')
+
 
 # def registrarUsuario(request):
 #     
@@ -76,3 +79,21 @@ def auth_register(request):
         print('no funsiona')
         form = RegistrationForm()
     return(render(request,'register.html'))    
+
+def auth_login(request):
+    if request.method=='POST':
+        email = request.POST['email']
+        password= request.POST['password']
+        user= authenticate(request,email=email,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('base_user.html')
+        else:
+            error='Correo o Contraseña incorrecta!'
+            return render(request, 'login.html',{'error':error})
+    else:
+        return render(request,'login.html')
+    
+@login_required
+def base_user(request):
+    return(render(request,'layouts/base_user.html'))
