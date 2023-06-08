@@ -6,6 +6,7 @@ from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
+from .models import NewsCategory
 
 def index(request):
     return render(request, 'index.html')
@@ -98,3 +99,7 @@ def create_news(request):
 def exit(request):
     logout(request)
     return redirect('auth_login')
+
+def category_values(request):
+    data = NewsCategory.objects.all()
+    return render(request,'create_news.html', {'data':data})
