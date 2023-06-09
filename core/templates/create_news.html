@@ -21,9 +21,17 @@
             <label for="author" class="form-label mx-2">Autor</label>
         </div>
         <select class="form-select" aria-label="Default select example" name="category" id="category">
-            <option selected disabled>Open this select menu</option>
-            <option value="1">One</option>
+            <option selected disabled>Elige una categoria</option>
+            
+            {% for obj in data %}
+            <option value="{{obj.id}}">{{obj.category}}</option>
+            {% endfor %}
+
         </select>
+        <div class="mb-3">
+            <label for="formFileSm" class="form-label">Elige tus fotos</label>
+            <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file">
+        </div>
         <br><br><br>
         <div class="col-12 btn-section">
             <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
