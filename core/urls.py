@@ -3,9 +3,10 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
-    path('gallery/', gallery, name='gallery'),
-    #path('login/', login, name='login'),
-    #path('register/', register, name='register'),
+    path('news_gallery/', news_gallery, name='news_gallery'),
+    path('pictures_gallery/', pictures_gallery, name='pictures_gallery'),
+    path('login/', login, name='login'),
+    path('register/', register, name='register'),
     path('contact/', contact, name='contact'),
     path('create_news/', category_values, name='create_news'),
     path('news_detail/', news_detail, name='news_detail'),
