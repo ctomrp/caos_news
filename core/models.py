@@ -34,6 +34,7 @@ class News(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     article = models.TextField(blank=False, null=False)
     photo = models.ImageField(upload_to='img', default='logo.svg')
+    location = models.CharField(max_length=40,blank=False,null=False)
     author = models.ForeignKey('User',on_delete=models.CASCADE)
     category = models.ForeignKey('NewsCategory',on_delete=models.CASCADE)
     state = models.ForeignKey('NewsState', on_delete=models.CASCADE)
