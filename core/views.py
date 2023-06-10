@@ -3,8 +3,11 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html')
 
-def gallery(request):
-    return render(request, 'gallery.html')
+def news_gallery(request):
+    return render(request, 'news_gallery.html')
+
+def pictures_gallery(request):
+    return render(request, 'pictures_gallery.html')
 
 def login(request):
     return render(request, 'login.html')
