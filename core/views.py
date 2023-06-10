@@ -20,8 +20,8 @@ def pictures_gallery(request):
 #def login(request):
 #    return render(request, 'login.html')
 
-#def register(request):
-#    return render(request, 'register.html')
+def register(request):
+    return render(request, 'register.html')
 
 def contact(request):
     return render(request, 'contact.html')
