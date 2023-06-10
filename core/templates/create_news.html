@@ -22,11 +22,11 @@
         </div>
         <select class="form-select" aria-label="Default select example" name="category" id="category">
             <option selected disabled>Elige una categoria</option>
-            
-            {% for obj in data %}
-            <option value="{{obj.id}}">{{obj.category}}</option>
-            {% endfor %}
-
+            {% if data %}
+                {% for i in data %}
+            <option value="{{i.id}}">{{i.category}}</option>
+                {% endfor %}
+            {% endif %}
         </select>
         <div class="mb-3">
             <label for="formFileSm" class="form-label">Elige tus fotos</label>
