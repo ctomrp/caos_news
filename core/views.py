@@ -6,7 +6,7 @@ from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import NewsCategory
+from .models import *
 
 def index(request):
     return render(request, 'index.html')
@@ -106,3 +106,7 @@ def exit(request):
 def category_values(request):
     data = NewsCategory.objects.all()
     return render(request,'create_news.html', {'data':data})
+
+def renderizarNoticia(request):
+    data = News.objects.all()
+    return render(request,'news_gallery.html', {'data':data})
