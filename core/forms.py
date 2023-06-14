@@ -2,7 +2,7 @@ from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Group,User
-
+from .models import NewsCategory
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(min_length=2,max_length=15)
@@ -29,3 +29,11 @@ class RegistrationForm(forms.Form):
 #      if created:
 #         group = Group.objects.get(name='Lector')
 #         instance.groups.add(group) 
+
+class crearNoticiaForm(forms.Form):
+    title = forms.CharField(max_length=100)
+    article = forms.CharField(max_length=150)
+    category = forms.ModelChoiceField(queryset=NewsCategory.objects.all())
+    photo = forms.ImageField()
+    ubicacion = forms.CharField(max_length=40)
+

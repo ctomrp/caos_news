@@ -130,3 +130,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL para acceder a los archivos cargados
 MEDIA_URL = '/media/'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # Nivel de registro para mostrar en la consola
+    },
+}

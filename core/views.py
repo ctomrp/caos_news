@@ -1,16 +1,17 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth.decorators import login_required,permission_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .forms import RegistrationForm
+from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import *
+from .models import NewsCategory,NewsState,News
 import os 
 from django.conf import settings
 
 def index(request):
+    print('qqeqq')
     return render(request, 'index.html')
 
 def news_gallery(request):
@@ -111,32 +112,40 @@ def exit(request):
 #     return render(request,'create_news.html', {'data':data})
 
 @login_required
+@user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
 def crear_noticia(request):
     data = NewsCategory.objects.all()
-    
     if request.method == 'POST':
-        titulo = request.POST['title']
-        articulo = request.POST['article']
-        #autor = request.POST['author']
-        categoria = request.POST['category']
-        foto = request.FILES['photo']
+        user_id = request.user.id
+        auto= User.objects.get(id=user_id)
 
-        # Guardar la foto en la carpeta media
-        photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-        with open(photo_path, 'wb') as file:
-            for chunk in foto.chunks():
-                file.write(chunk)
-        objUser = User.objects.get(id=request.user.id)
-        objCategory = NewsCategory.objects.get(id=categoria)
-        #objState = NewsState.objects.get(id) 
-        objNews = News.objects.create(
-            title=titulo,
-            article=articulo,
-            author=objUser,
-            category=objCategory,
-            #state=NewsState.objects.get(request.id), 
-            photo=foto
-        )
-        objNews.save()
-        return redirect('index')
+        form = crearNoticiaForm(request.POST,request.FILES)
+        
+        if form.is_valid():
+            titulo = request.POST['title']
+            articulo = request.POST['article']
+            categoria = request.POST['category']
+            foto = request.FILES['photo']
+            ubicacion = request.POST['ubicacion']
+            # Guardar la foto en la carpeta media
+            photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+            with open(photo_path, 'wb') as file:
+                for chunk in foto.chunks():
+                    file.write(chunk)        
+
+            objCategory = NewsCategory.objects.get(id=categoria)
+            objState = NewsState.objects.get(id=1) 
+            objNews = News.objects.create(
+                title=titulo,
+                article=articulo,
+                author=auto,
+                category=objCategory,
+                photo=foto,
+                location=ubicacion,
+                state=objState
+            )
+            objNews.save()
+            return redirect('index')
+        else:
+            print(form.errors)
     return render(request, 'create_news.html', {'data': data})
