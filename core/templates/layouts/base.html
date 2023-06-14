@@ -46,7 +46,7 @@
                 <li class="nav-item">
                   <a class="nav-link " aria-current="page" href="{% url 'contact' %}">Contacto</a>
                 </li>
-                {% if request.user.is_authenticated %}
+                {% if perms.core.add_news %}
                 <li class="nav-item">
                   <a class="nav-link " aria-current="page" href="{% url 'create_news' %}">Registar Noticia</a>
                 </li>

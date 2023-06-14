@@ -1,5 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+# #crear permisos
+# from django.contrib.auth.models import Group, Permission
+# from django.contrib.contenttypes.models import ContentType
+
+# tablaNoticia = ContentType.objects.get(app_label='core',model='News')
+# periodistaG = Group.objects.get(name='Periodista')
+# permiso1 = Permission(name='crear_noticia',codename='crear_noticia',content_type=tablaNoticia)
+# permiso1.save()
+# periodistaG.permissions.add(permiso1)
+# #end crear permisos
 
 class UserType(models.Model):
     type = models.CharField(max_length=50, blank=False, null=False)

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .forms import RegistrationForm
@@ -95,9 +95,10 @@ def auth_login(request):
     else:
         return render(request,'login.html')
     
-@login_required
-def create_news(request):
-    return render(request, 'create_news.html')
+# @login_required
+# def create_news(request):
+#     es_periodista = request.User.groups.filter(name='Periodista').exists()
+#     return render(request, 'create_news.html',{'es_periodista':es_periodista})
 
 def exit(request):
     logout(request)

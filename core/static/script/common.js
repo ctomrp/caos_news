@@ -1,95 +1,78 @@
-// usernameId
-// nameId
-// lastNameId
-// emailId
-// emailId2
-// passwordId
-// passwordId2
-
-$("#usernameId").keyup(()=>{
-    const largoTexto = $("#usernameId").length;
+$("#usernameId").on("input",()=>{
+    const largoTexto = $("#usernameId").val().length;
     const parrafo = $("#pUsernameid");
+    const inputUsername = $("#usernameId");
 
     if (largoTexto <= 2 || largoTexto >= 15 ){
-        $("#usernameId").addClass("is-invalid");
-        $("#usernameId").removeClass("is-valid");
-        parrafo.text("El nombre de usuario  debe contener entre 3 a 15 caracteres");
-        parrafo.css({ color: "red", fontSize: "14px" });
+        inputUsername.removeClass("is-valid").addClass("is-invalid");
+        parrafo.text("El nombre de usuario debe contener entre 3 y 15 caracteres")
+               .css({ color: "red", fontSize: "14px" });
     }else{
-        $("#nombreId").removeClass("is-invalid");
-        $("#nombreId").addClass("is-valid");
-        parrafo.text("");
+        inputUsername.removeClass("is-invalid").addClass("is-valid");
+        parrafo.text("").css({ color: "", fontSize: "" });
     }
-})
+});
 
-$("#nameId").keyup(()=>{
-    const largoTexto = $("#nameId").length;
-    const parrafo = $("#nameId");
+$("#nameId").on("input",()=>{
+    const largoTexto = $("#nameId").val().length;
+    const parrafo = $("#pNameid");
+    const inputName = $("#nameId");
 
     if (largoTexto <= 3 || largoTexto >= 15 ){
-        $("#nameId").addClass("is-invalid");
-        $("#nameId").removeClass("is-valid");
-        parrafo.text("El nombre debe contener entre 3 a 15 caracteres");
-        parrafo.css({ color: "red", fontSize: "14px" });
+        inputName.removeClass("is-valid").addClass("is-invalid");
+        parrafo.text("El nombre de usuario debe contener entre 3 y 15 caracteres")
+               .css({ color: "red", fontSize: "14px" });
     }else{
-        $("#nameId").removeClass("is-invalid");
-        $("#nameId").addClass("is-valid");
-        parrafo.text("");
+        inputName.removeClass("is-invalid").addClass("is-valid");
+        parrafo.text("").css({ color: "", fontSize: "" });
     }
 })
 
-$("#lastNameId").keyup(()=>{
-    const largoTexto = $("#lastNameId").length;
-    const parrafo = $("#lastNameId");
+$("#lastNameId").on("input",()=>{
+    const largoTexto = $("#lastNameId").val().length;
+    const parrafo = $("#pLastnameid");
+    const inputLastname = $("#lastNameId");
 
     if (largoTexto <= 3 || largoTexto >= 15 ){
-        $("#lastNameId").addClass("is-invalid");
-        $("#lastNameId").removeClass("is-valid");
-        parrafo.text("El apellido debe contener entre 5 a 15 caracteres");
-        parrafo.css({ color: "red", fontSize: "14px" });
+        inputLastname.removeClass("is-valid").addClass("is-invalid");
+        parrafo.text("El nombre de usuario debe contener entre 3 y 15 caracteres")
+               .css({ color: "red", fontSize: "14px" });
     }else{
-        $("#lastNameId").removeClass("is-invalid");
-        $("#lastNameId").addClass("is-valid");
-        parrafo.text("");
+        inputLastname.removeClass("is-invalid").addClass("is-valid");
+        parrafo.text("").css({ color: "", fontSize: "" });
     }
 })
 
-$("#emailId2").keyup(()=>{
+$("#emailId2").on("input", () => {
     const email1 = $("#emailId").val();
-    const email2 = $("emailId2").val();
+    const email2 = $("#emailId2").val();
     const parrafo = $("#pEmailid");
-    if (email1 && email2 && email1 != email2){
-        $("#emailId").addClass("is-invalid");
-        $("#emailId").removeClass("is-valid");
-        $("#emailId2").addClass("is-invalid");
-        $("#emailId2").removeClass("is-valid");
-        parrafo.text("El apellido debe contener entre 5 a 15 caracteres");
-        parrafo.css({ color: "red", fontSize: "14px" });
-    }else{
-        $("#emailId").removeClass("is-invalid");
-        $("#emailId").addClass("is-valid");
-        $("#emailId2").removeClass("is-invalid");
-        $("#emailId2").addClass("is-valid");
-        parrafo.text("");
-    }
-})1
 
-$("#passwordId2").keyup(()=>{
-    const email1 = $("#passwordId").val();
-    const email2 = $("passwordId2").val();
-    const parrafo = $("#pPasswordid");
-    if (email1 && email2 && email1 != email2){
-        $("#passwordId").addClass("is-invalid");
-        $("#passwordId").removeClass("is-valid");
-        $("#passwordId2").addClass("is-invalid");
-        $("#passwordId2").removeClass("is-valid");
-        parrafo.text("El apellido debe contener entre 5 a 15 caracteres");
+    if (email1 !== email2) {
+        $("#emailId, #emailId2").addClass("is-invalid");
+        $("#emailId, #emailId2").removeClass("is-valid");
+        parrafo.text("Los correos no coinciden");
         parrafo.css({ color: "red", fontSize: "14px" });
-    }else{
-        $("#passwordId").removeClass("is-invalid");
-        $("#passwordId").addClass("is-valid");
-        $("#passwordId2").removeClass("is-invalid");
-        $("#passwordId2").addClass("is-valid");
+    } else {
+        $("#emailId, #emailId2").removeClass("is-invalid");
+        $("#emailId, #emailId2").addClass("is-valid");
         parrafo.text("");
     }
-})
+});
+
+$("#passwordId2").on("input", () => {
+    const pass1 = $("#passwordId").val();
+    const pass2 = $("#passwordId2").val();
+    const parrafo = $("#pPasswordid");
+
+    if (pass1 !== pass2) {
+        $("#passwordId, #passwordId2").addClass("is-invalid");
+        $("#passwordId, #passwordId2").removeClass("is-valid");
+        parrafo.text("Las contraseñas no coinciden");
+        parrafo.css({ color: "red", fontSize: "14px" });
+    } else {
+        $("#passwordId, #passwordId2").removeClass("is-invalid");
+        $("#passwordId, #passwordId2").addClass("is-valid");
+        parrafo.text("");
+    }
+});

@@ -1,4 +1,8 @@
 from django import forms 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import Group,User
+
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(min_length=2,max_length=15)
@@ -19,3 +23,9 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError('Las contraseñas no coinciden!')
         if email and email2 and email != email2:
             raise forms.ValidationError('Los correos no coinciden!')
+        
+# @receiver(post_save,sender=User)
+# def assign_default_group(sender,instance,created,**kwargs):
+#      if created:
+#         group = Group.objects.get(name='Lector')
+#         instance.groups.add(group) 

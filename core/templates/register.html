@@ -1,10 +1,10 @@
-1{% extends 'layouts/base.html' %}
+{% extends 'layouts/base.html' %}
 
 {% block content %}
 
-<div class="form-template text-center mt-5">
+<div class="form-template text-center">
     <h1>Registrarse</h1>
-    <br>
+    {% comment %} <br> {% endcomment %}
     <form class="row g-3" method="POST" action="" autocomplete="off">
         {% csrf_token %}
 
@@ -41,7 +41,7 @@
             <label for="passwordId2" class="form-label mx-2">Confirme contraseña</label>
         </div>
         <span id="pPasswordid"></span>
-        <br><br><br>
+        {% comment %} <br><br><br> {% endcomment %}
         <div class="col-12 btn-section">
             <button class="btn btn-primary w-50 shadow" type="submit">Registrarse</button>
             <a href="{% url 'index' %}" class="btn btn-secondary w-50 shadow" type="submit">Cancelar</a>
