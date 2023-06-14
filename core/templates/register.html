@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<div class="form-template text-center mt-5">
+<div class="form-template text-center">
     <h1>Registrarse</h1>
-    <br>
+    {% comment %} <br> {% endcomment %}
     <form class="row g-3" method="POST" action="" autocomplete="off">
         {% csrf_token %}
 
@@ -12,14 +12,17 @@
             <input type="text" class="form-control" id="usernameId" name="username" required placeholder="Username"/>
             <label for="usernameId" class="form-label mx-2">Nombre Usuario</label>
         </div>
+        <span id="pUsernameid"></span>
         <div class="form-floating">
             <input type="text" class="form-control" id="nameId" name="name" required placeholder="Nombre"/>
             <label for="nameId" class="form-label mx-2">Nombre</label>
         </div>
+        <span id="pNameid"></span>
         <div class="form-floating">
             <input type="text" class="form-control" id="lastNameId" name="last_name" required placeholder="Apellido"/>
             <label for="lastNameId" class="form-label mx-2">Apellido</label>
         </div>
+        <span id="pLastnameid"></span>
         <div class="form-floating">
             <input type="email" class="form-control" id="emailId" name="email" required placeholder="Correo electrónico"/>
             <label for="emailId" class="form-label mx-2">Correo electrónico</label>
@@ -28,15 +31,17 @@
             <input type="email2" class="form-control" id="emailId2" name="email2" required placeholder="Confirme correo electrónico"/>
             <label for="emailId2" class="form-label mx-2">Confirme correo electrónico</label>
         </div>
+        <span id="pEmailid"></span>
         <div class="form-floating">
             <input type="password" class="form-control" id="passwordId" name="password" required placeholder="Contraseña"/>
             <label for="passwordId" class="form-label mx-2">Contraseña</label>
         </div>
         <div class="form-floating">
-            <input type="password2" class="form-control" id="passwordId2" name="password2" required placeholder="Confirme contraseña"/>
+            <input type="password" class="form-control" id="passwordId2" name="password2" required placeholder="Confirme contraseña"/>
             <label for="passwordId2" class="form-label mx-2">Confirme contraseña</label>
         </div>
-        <br><br><br>
+        <span id="pPasswordid"></span>
+        {% comment %} <br><br><br> {% endcomment %}
         <div class="col-12 btn-section">
             <button class="btn btn-primary w-50 shadow" type="submit">Registrarse</button>
             <a href="{% url 'index' %}" class="btn btn-secondary w-50 shadow" type="submit">Cancelar</a>

@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -123,3 +124,24 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+
+# Directorio donde se guardarán los archivos cargados
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL para acceder a los archivos cargados
+MEDIA_URL = '/media/'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # Nivel de registro para mostrar en la consola
+    },
+}

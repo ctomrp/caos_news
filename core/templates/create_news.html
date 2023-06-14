@@ -1,26 +1,26 @@
 {% extends 'layouts/base_user.html' %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
 <div class="form-template text-center mt-5">
     <h1>Crear noticia</h1>
     <br>
-    <form class="row g-3" method="POST">
+    <form class="row g-3" method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-floating">
-            <input type="text" class="form-control" id="title" name="title" required placeholder="Título"/>
-            <label for="title" class="form-label mx-2">Título</label>
+            <input type="text" class="form-control" id="titleId" name="title" required placeholder="Título"/>
+            <label for="titleId" class="form-label mx-2">Título</label>
         </div>
         <div class="form-floating">
-            <textarea class="form-control" id="article" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
-            <label for="article" class="form-label mx-2">Artículo</label>
+            <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
+            <label for="articleId" class="form-label mx-2">Artículo</label>
         </div>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="author" name="author" required placeholder="Autor"/>
-            <label for="author" class="form-label mx-2">Autor</label>
-        </div>
-        <select class="form-select" aria-label="Default select example" name="category" id="category">
+        {% comment %} <div class="form-floating">
+            <input type="text" class="form-control" id="authorId" name="author" required placeholder="Autor"/>
+            <label for="authorId" class="form-label mx-2">Autor</label>
+        </div> {% endcomment %}
+        <select class="form-select" aria-label="Default select example" name="category" id="categoryId">
             <option selected disabled>Elige una categoria</option>
             {% if data %}
                 {% for i in data %}
@@ -30,7 +30,11 @@
         </select>
         <div class="mb-3">
             <label for="formFileSm" class="form-label">Elige tus fotos</label>
-            <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file">
+            <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Autor"/>
+            <label for="ubicacionId" class="form-label mx-2">ubicacion</label>
         </div>
         <br><br><br>
         <div class="col-12 btn-section">
@@ -39,5 +43,5 @@
         </div>
     </form>
 </div>
-
+{% endif %}
 {% endblock %}

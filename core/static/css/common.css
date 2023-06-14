@@ -25,6 +25,7 @@ a, a h1 {
     justify-content: flex-start;
     align-items: center;
     padding: 1rem;
+    overflow: auto;
 }
 
 .form-template form{
