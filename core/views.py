@@ -127,23 +127,31 @@ def crear_noticia(request):
             categoria = request.POST['category']
             foto = request.FILES['photo']
             ubicacion = request.POST['ubicacion']
-            # Guardar la foto en la carpeta media
-            photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-            with open(photo_path, 'wb') as file:
-                for chunk in foto.chunks():
-                    file.write(chunk)        
+            # # Guardar la foto en la carpeta media
+            # photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+            # with open(photo_path, 'wb') as file:
+            #     for chunk in foto.chunks():
+            #         file.write(chunk)
+             # Obtener una lista de archivos enviados
+            fotos = request.FILES.getlist('photo')
+            for foto in fotos:
+            # Guardar cada foto en la carpeta media
+                photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+                with open(photo_path, 'wb') as file:
+                    for chunk in foto.chunks():
+                        file.write(chunk)        
 
-            objCategory = NewsCategory.objects.get(id=categoria)
-            objState = NewsState.objects.get(id=1) 
-            objNews = News.objects.create(
-                title=titulo,
-                article=articulo,
-                author=auto,
-                category=objCategory,
-                photo=foto,
-                location=ubicacion,
-                state=objState
-            )
+                objCategory = NewsCategory.objects.get(id=categoria)
+                objState = NewsState.objects.get(id=1) 
+                objNews = News.objects.create(
+                    title=titulo,
+                    article=articulo,
+                    author=auto,
+                    category=objCategory,
+                    photo=foto,
+                    location=ubicacion,
+                    state=objState
+                )
             objNews.save()
             return redirect('index')
         else:
