@@ -6,7 +6,9 @@ from .forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import NewsCategory
+from .models import *
+import os 
+from django.conf import settings
 
 def index(request):
     return render(request, 'index.html')
@@ -104,6 +106,37 @@ def exit(request):
     logout(request)
     return redirect('auth_login')
 
-def category_values(request):
+# def category_values(request):
+#     data = NewsCategory.objects.all()
+#     return render(request,'create_news.html', {'data':data})
+
+@login_required
+def crear_noticia(request):
     data = NewsCategory.objects.all()
-    return render(request,'create_news.html', {'data':data})
+    
+    if request.method == 'POST':
+        titulo = request.POST['title']
+        articulo = request.POST['article']
+        #autor = request.POST['author']
+        categoria = request.POST['category']
+        foto = request.FILES['photo']
+
+        # Guardar la foto en la carpeta media
+        photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+        with open(photo_path, 'wb') as file:
+            for chunk in foto.chunks():
+                file.write(chunk)
+        objUser = User.objects.get(id=request.user.id)
+        objCategory = NewsCategory.objects.get(id=categoria)
+        #objState = NewsState.objects.get(id) 
+        objNews = News.objects.create(
+            title=titulo,
+            article=articulo,
+            author=objUser,
+            category=objCategory,
+            #state=NewsState.objects.get(request.id), 
+            photo=foto
+        )
+        objNews.save()
+        return redirect('index')
+    return render(request, 'create_news.html', {'data': data})
