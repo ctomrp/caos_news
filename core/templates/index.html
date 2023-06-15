@@ -14,9 +14,9 @@
     </div>
     <div class="carousel-inner">
       {% for i in data %}
-      <div class="carousel-item active">
+      <div class="carousel-item {% if forloop.last %}active{% endif %}">
         <h1 class="fw-semibold">{{ i.title }}</h1>
-        <a href="#">
+        <a href="{% url 'news_detail' i.id %}">
           {% if i.photo %}
           <img src="../../../media/{{ i.photo }}" class="card-img-top photo" alt="...">
           {% else %}

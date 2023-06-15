@@ -5,7 +5,7 @@
 <h1>Galería de noticas</h1>
 <br>
 
-<div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap">
+<div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
 
   {% for i in data %}
   {% if i.state.id == 1 %}
@@ -17,9 +17,9 @@
           <a href="{% url 'news_detail' i.id %}" class="btn btn-primary shadow">Ver noticia</a>
         </div>
       </div>
-  </div>
-  <br>
-  {% endif %}
-  {% endfor %}
+      <br>
+      {% endif %}
+      {% endfor %}
+    </div>
 
   {% endblock %}

@@ -14,9 +14,9 @@ from django.conf import settings
 
 def index(request):
     data = News.objects.filter(headline=True)
-    last = News.objects.aggregate(date=Max('date'))
-    contexto = {'data': data, 'last_date': last['date']}
-    return render(request, 'index.html', contexto)
+    # last = News.objects.aggregate(date=Max('date'))
+    # contexto = {'data': data, 'last_date': last['date']}
+    return render(request, 'index.html', {'data': data})
 
 def news_gallery(request):
     data = News.objects.all()
