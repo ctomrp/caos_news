@@ -7,17 +7,23 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import NewsCategory,NewsState,News
+from django.db.models import Max
+from django.shortcuts import get_object_or_404
 import os 
 from django.conf import settings
 
 def index(request):
-    print('qqeqq')
-    return render(request, 'index.html')
+    data = News.objects.filter(headline=True)
+    last = News.objects.aggregate(date=Max('date'))
+    contexto = {'data': data, 'last_date': last['date']}
+    return render(request, 'index.html', contexto)
 
 def news_gallery(request):
-    return render(request, 'news_gallery.html')
+    data = News.objects.all()
+    return render(request,'news_gallery.html', {'data':data})
 
 def pictures_gallery(request):
+    data = News.objects.get()
     return render(request, 'pictures_gallery.html')
 
 #def login(request):
@@ -29,8 +35,11 @@ def register(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def news_detail(request):
-    return render(request, 'news_detail.html')
+def news_detail(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    detail = News.objects.get(id = news.id)
+    print(detail.photo)
+    return render(request, 'news_detail.html', {'detail': detail})
 
 def news_state(request):
     return render(request, 'news_state.html')

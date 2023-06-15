@@ -43,14 +43,17 @@ class NewsState(models.Model):
 class News(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     article = models.TextField(blank=False, null=False)
-    photo = models.ImageField(upload_to='fotos_noticias/')
+    headline = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+    photo = models.ImageField(upload_to='')
+    premium = models.BooleanField(default=False)
     location = models.CharField(max_length=40,blank=False,null=False)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     category = models.ForeignKey('NewsCategory',on_delete=models.CASCADE)
     state = models.ForeignKey('NewsState', on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.title +' '+ self.author +' '+ self.category +' '+ self.state)
+        return str(self.title)
 
 class ContactForm(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
