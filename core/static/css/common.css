@@ -47,8 +47,13 @@ a, a h1 {
 }
 
 .photo{
-    height: 600px;
+    height: 800px;
     width: 100%;
+}
+
+.dark-img{
+    background-color: black;
+    padding: 1rem;
 }
 
 /* Estilos para pantallas medianas */
