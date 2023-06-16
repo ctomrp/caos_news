@@ -1,10 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
     # path('', last, name='index'),
+    # path('news_gallery/', news_gallery, name='news_gallery'),
+    # path('news_gallery/<int:author_id>/', news_gallery, name='news_gallery'),
     path('news_gallery/', news_gallery, name='news_gallery'),
+    path('news_premium/', news_premium, name='news_premium'),
     path('pictures_gallery/', pictures_gallery, name='pictures_gallery'),
     path('login/', login, name='login'),
     path('register/', register, name='register'),

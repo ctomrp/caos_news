@@ -4,27 +4,27 @@
 
 <h1>Lista de reporteros</h1>
 <br>
-    <table class="table table-striped table-hover shadow-lg mb-5">
-        <thead>
-          <tr>
-            <th scope="col">Reportero</th>
-            <th scope="col">Opción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Tulio Triviño</td>
-            <td><a class="btn btn-primary shadow" href="{% url 'news_gallery' %}" role="button">Ver noticias del reportero</a></td>
-          </tr>
-          <tr>
-            <td>Juan Carlos Bodoque</td>
-            <td><a class="btn btn-primary shadow" href="{% url 'news_gallery' %}" role="button">Ver noticias del reportero</a></td>
-          </tr>
-          <tr>
-            <td>Guaripolo, el personaje favorito de los niños de 31 minutos</td>
-            <td><a class="btn btn-primary shadow" href="{% url 'news_gallery' %}" role="button">Ver noticias del reportero</a></td>
-          </tr>
-        </tbody>
-      </table>
+<div class="text-center">
+  
+  <table class="table table-striped table-hover shadow-lg mb-5">
+    <thead>
+      <tr>
+        <th scope="col" class="col-6">Reportero</th>
+        <th scope="col" class="col-6">Opción</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        {% for periodista in periodistas %}
+        <tr>
+          <td class="col-6">{{ periodista.username }}</td>
+          <td class="col-6"><a class="btn btn-primary shadow" href="{% url 'news_gallery' %}?author_id={{ periodista.id }}" role="button">Ver noticias del reportero</a></td>
+        </tr>
+        {% endfor %}
+
+      
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}

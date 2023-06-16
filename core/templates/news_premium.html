@@ -1,14 +1,14 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-
-<h1>Galería de noticas</h1>
+{% if user.is_authenticated %}
+<h1>Galería premium de noticias</h1>
 <br>
 
 <div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
 
-  {% for n in news %}
-  {% if n.state.id == 1 and n.premium == 0 %}
+  {% for n in news_premium %}
+  {% if n.state.id == 1 and n.premium == 1 %}
     <div class="card shadow-lg" style="width: 18rem;">
       <img src="../../../media/{{ n.photo }}" class="card-img-top preview" alt="...">
       <div class="card-body">
@@ -23,5 +23,5 @@
       {% endif %}
       {% endfor %}
     </div>
-
+  {% endif %}
   {% endblock %}

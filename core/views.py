@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
@@ -11,6 +11,9 @@ from django.db.models import Max
 from django.shortcuts import get_object_or_404
 import os 
 from django.conf import settings
+from django.shortcuts import render, redirect
+from .models import ContactForm
+from .forms import ContactForm as cf
 
 def index(request):
     data = News.objects.filter(headline=True)
@@ -18,9 +21,46 @@ def index(request):
     # contexto = {'data': data, 'last_date': last['date']}
     return render(request, 'index.html', {'data': data})
 
+def base_context(request):
+    categories = NewsCategory.objects.all()
+    return {'categories': categories}
+
+# def news_gallery(request):
+#     data = News.objects.all()
+#     return render(request,'news_gallery.html', {'data':data})
+
+# def news_by_author(request):
+#     grupo_periodista = Group.objects.get(name='periodista')
+#     periodistas = User.objects.filter(groups=grupo_periodista)
+#     news = News.objects.filter(author__user__in=periodistas)    
+#     return render(request, 'journalist.html', {'news': news})
+
 def news_gallery(request):
-    data = News.objects.all()
-    return render(request,'news_gallery.html', {'data':data})
+    author_id = request.GET.get('author_id')
+    category_id = request.GET.get('category_id')
+    search_query = request.GET.get('search_query')
+
+    news = News.objects.all()
+
+    if author_id:
+        news = news.filter(author__id=author_id)
+
+    if category_id:
+        news = news.filter(category_id=category_id)
+
+    if search_query:
+        news = news.filter(
+            Q(title__icontains=search_query) |
+            Q(article__icontains=search_query)
+        )
+
+    return render(request, 'news_gallery.html', {'news': news})
+
+@login_required
+def news_premium(request):
+    news_premium = News.objects.filter(premium=1)
+    return render(request, 'news_premium.html', {'news_premium': news_premium})
+
 
 def pictures_gallery(request):
     data = News.objects.get()
@@ -31,9 +71,6 @@ def pictures_gallery(request):
 
 def register(request):
     return render(request, 'register.html')
-
-def contact(request):
-    return render(request, 'contact.html')
 
 def news_detail(request, news_id):
     news = get_object_or_404(News, id=news_id)
@@ -48,7 +85,9 @@ def news_feedback(request):
     return render(request, 'news_feedback.html')
 
 def journalist(request):
-    return render(request, 'journalist.html')
+    grupo_periodista = Group.objects.get(name='periodista')
+    periodistas = grupo_periodista.user_set.all()
+    return render(request, 'journalist.html', {'periodistas': periodistas})
 
 def recover_password(request):
     return render(request, 'recover_password.html')
@@ -166,3 +205,28 @@ def crear_noticia(request):
         else:
             print(form.errors)
     return render(request, 'create_news.html', {'data': data})
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = cf(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            last_name = request.POST['last_name']
+            email = request.POST['email']
+            email2 = request.POST['email2']
+            phone = request.POST['phone']
+            comment = request.POST['comment']
+            form = ContactForm.objects.create(
+                name = name,
+                last_name = last_name,
+                email = email,
+                email2 = email2,
+                phone = phone,
+                comment = comment,
+            )
+            form.save()
+            return redirect('index')  # Redirigir a una página de éxito o cualquier otra página
+    else:
+        form = cf()
+    return render(request, 'contact.html', {'form': form})

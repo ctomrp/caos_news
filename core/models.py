@@ -54,6 +54,10 @@ class News(models.Model):
 
     def __str__(self):
         return str(self.title)
+    
+# class Image(models.Model):
+#     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='images')
+#     image = models.ImageField(upload_to='')
 
 class ContactForm(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
