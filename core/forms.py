@@ -2,7 +2,7 @@ from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Group,User
-from .models import NewsCategory
+from .models import NewsCategory,NewsState
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(min_length=2,max_length=15)

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -111,46 +111,82 @@ def exit(request):
 #     data = NewsCategory.objects.all()
 #     return render(request,'create_news.html', {'data':data})
 
-@login_required
-@user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
+# @login_required
+# @user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
+# def crear_noticia(request):
+#     data = NewsCategory.objects.all()
+#     if request.method == 'POST':
+#         user_id = request.user.id
+#         auto= User.objects.get(id=user_id)
+
+#         form = crearNoticiaForm(request.POST,request.FILES)
+        
+#         if form.is_valid():
+#             titulo = request.POST['title']
+#             articulo = request.POST['article']
+#             categoria = request.POST['category']
+#             foto = request.FILES['photo']
+#             ubicacion = request.POST['ubicacion']
+#             # # Guardar la foto en la carpeta media
+#             # photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+#             # with open(photo_path, 'wb') as file:
+#             #     for chunk in foto.chunks():
+#             #         file.write(chunk)
+#              # Obtener una lista de archivos enviados
+#             fotos = request.FILES.getlist('photo')
+#             for foto in fotos:
+#             # Guardar cada foto en la carpeta media
+#                 photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+#                 with open(photo_path, 'wb') as file:
+#                     for chunk in foto.chunks():
+#                         file.write(chunk)        
+#                 objCategory = NewsCategory.objects.get(id=categoria)
+#                 objState = NewsState.objects.get(id=1) 
+#                 objNews = News.objects.create(
+#                     title=titulo,
+#                     article=articulo,
+#                     author=auto,
+#                     category=objCategory,
+#                     photo=foto,
+#                     location=ubicacion,
+#                     state=objState
+#                 )
+#             objNews.save()
+#             return redirect('index')
+#         else:
+#             print(form.errors)
+#     return render(request, 'create_news.html', {'data': data})
+
+def guardar_foto(foto):
+    # Guardar la foto en la carpeta media
+    photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+    with open(photo_path, 'wb') as file:
+        for chunk in foto.chunks():
+            file.write(chunk)
+
 def crear_noticia(request):
     data = NewsCategory.objects.all()
     if request.method == 'POST':
         user_id = request.user.id
-        auto= User.objects.get(id=user_id)
-
-        form = crearNoticiaForm(request.POST,request.FILES)
-        
+        author = get_object_or_404(User, id=user_id)
+        form = crearNoticiaForm(request.POST, request.FILES)
         if form.is_valid():
-            titulo = request.POST['title']
-            articulo = request.POST['article']
+            titulo = form.cleaned_data['title']
+            articulo = form.cleaned_data['article']
             categoria = request.POST['category']
-            foto = request.FILES['photo']
-            ubicacion = request.POST['ubicacion']
-            # # Guardar la foto en la carpeta media
-            # photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-            # with open(photo_path, 'wb') as file:
-            #     for chunk in foto.chunks():
-            #         file.write(chunk)
-             # Obtener una lista de archivos enviados
+            ubicacion = form.cleaned_data['ubicacion']
+            # Obtener una lista de archivos enviados
             fotos = request.FILES.getlist('photo')
             for foto in fotos:
-            # Guardar cada foto en la carpeta media
-                photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-                with open(photo_path, 'wb') as file:
-                    for chunk in foto.chunks():
-                        file.write(chunk)        
-
-                objCategory = NewsCategory.objects.get(id=categoria)
-                objState = NewsState.objects.get(id=1) 
+                guardar_foto(foto)
+                objCategory = get_object_or_404(NewsCategory, id=categoria)
                 objNews = News.objects.create(
                     title=titulo,
                     article=articulo,
-                    author=auto,
+                    author=author,
                     category=objCategory,
                     photo=foto,
                     location=ubicacion,
-                    state=objState
                 )
             objNews.save()
             return redirect('index')
