@@ -25,7 +25,7 @@ class NewsCategory(models.Model):
 
 class NewsState(models.Model):
     state = models.CharField(max_length=50, blank=False, null=False)
-    feedback = models.CharField(max_length=100, blank=False, null=False)
+    feedback = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return str(self.state)
