@@ -180,6 +180,7 @@ def crear_noticia(request):
             for foto in fotos:
                 guardar_foto(foto)
                 objCategory = get_object_or_404(NewsCategory, id=categoria)
+                objState = NewsState.objects.get(id=1)
                 objNews = News.objects.create(
                     title=titulo,
                     article=articulo,
@@ -187,6 +188,7 @@ def crear_noticia(request):
                     category=objCategory,
                     photo=foto,
                     location=ubicacion,
+                    state=objState
                 )
             objNews.save()
             return redirect('index')

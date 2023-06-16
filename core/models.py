@@ -25,7 +25,7 @@ class NewsCategory(models.Model):
 
 class NewsState(models.Model):
     state = models.CharField(max_length=50, blank=False, null=False)
-    feedback = models.CharField(max_length=100, blank=False, null=False)
+    feedback = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return str(self.state)
@@ -47,10 +47,10 @@ class News(models.Model):
     location = models.CharField(max_length=40,blank=False,null=False)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     category = models.ForeignKey('NewsCategory',on_delete=models.CASCADE)
-    state = models.ForeignKey('NewsState', on_delete=models.CASCADE,blank=True,null=True)
+    state = models.ForeignKey('NewsState', on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.title +' '+ self.author +' '+ self.category +' '+ self.state)
+        return str(self.title)
 
 class ContactForm(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
