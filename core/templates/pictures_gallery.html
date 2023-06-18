@@ -2,24 +2,23 @@
 
 {% block content %}
 
-<div class="index-template bg-body-tertiary p-3">
+<div class="text-left mt-4 d-flex justify-content-between">
+  <h1>Galería de imágenes</h1>
+</div>
+<a href="{% url 'news_detail' news_id=news.id %}" class="btn btn-primary">Volver</a>  
+<hr>
+<div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
 
-<h1>Noticia</h1>
-<br>
-<div class="card w-100 p-5">
-    <h1 class="card-title fw-semibold">{{ detail.title }}</h1>
-    <p class="card-text">{{ detail.author }}</p>
-    <div class="d-flex mx-auto justify-content-center">
-      {% for picture in pictures %}
-      <img src="{{ picture.picture.url }}" alt="Imagen de la noticia" class="w-75">
+  {% for picture in pictures %}
+  <div class="card shadow-lg {% if small_screen %}w-100{% endif %} p-5" style="max-width: 750px; height: auto;">
 
-      {% endfor %}
+      <img src="{{ picture.picture.url }}" class="card-img-top" alt="...">
     </div>
-    <div class="card-body">
-      <a href="#" class="btn btn-primary">Volver</a>
-      <p class="card-text">{{ detail.article }}</p>
-    </div>
-  </div>
+    <br>
+  {% endfor %}
+  
+  
 
 </div>
+
 {% endblock %}

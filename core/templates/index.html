@@ -18,8 +18,10 @@
           {% if forloop.parentloop.counter0 == forloop.counter0 %}
             <div class="carousel-item {% if forloop.parentloop.last and forloop.last %}active{% endif %}">
               <h1 class="fw-semibold">{{ i.title }}</h1>
-              <a href="{% url 'news_detail' i.id %}">
-                <img src="{{ picture.picture.url }}" class="card-img-top photo" alt="...">
+              <a href="{% url 'news_detail' i.id %}" class="d-flex justify-content-center">
+                <div class="img-size">
+                  <img src="{{ picture.picture.url }}" class="card-img-top photo alt="...">
+                </div>
                 <div class="carousel-caption d-none d-md-block">
                 </div>
               </a>

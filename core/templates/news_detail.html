@@ -4,21 +4,26 @@
 
 <div class="index-template bg-body-tertiary p-3">
 
-<h1>Noticia</h1>
-<br>
+<h1>{{ detail.title }}</h1>
+<p class="card-text">Autor: 
+{{ detail.author }}<br>
+{{ detail.date }}</p>
+<hr>
+<p>
+  <a href="{% url 'pictures_gallery' detail.id %}" class="btn btn-primary">Ir a galería de imágenes</a>
+</p>
 <div class="card w-100 p-5">
-    <h1 class="card-title fw-semibold">{{ detail.title }}</h1>
-    <p class="card-text">{{ detail.author }}</p>
-    <div class="d-flex mx-auto justify-content-center">
-      {% for picture in pictures %}
-      {% if picture.principal %}
-      <img src="{{ picture.picture.url }}" alt="Imagen de la noticia" class="w-75">
-      {% endif %}
-
-      {% endfor %}
-    </div>
-    <div class="card-body">
-      <a href="{% url 'pictures_gallery' %}" class="btn btn-primary">Ir a galería de imágenes</a>
+  
+  <div class="d-flex mx-auto justify-content-center">
+    {% for picture in pictures %}
+    {% if picture.principal %}
+    <img src="{{ picture.picture.url }}" alt="Imagen de la noticia" class="w-75">
+    {% endif %}
+    
+    {% endfor %}
+  </div>
+  <div class="card-body">
+    <hr>
       <p class="card-text">{{ detail.article }}</p>
     </div>
   </div>

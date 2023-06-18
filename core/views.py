@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import ContactForm
 from .forms import ContactForm as cf
 
@@ -87,10 +88,31 @@ def news_gallery(request):
             Q(article__icontains=search_query)
         )
 
+    for news_item in news:
+        picture = Picture.objects.filter(news_id=news_item.id, principal=True).first()
+        if picture:
+            news_item.image = picture.picture.url
+        else:
+            news_item.image = 'images/default-image.png'  # Ruta a la imagen por defecto
+
     return render(request, 'news_gallery.html', {'news': news})
 
 
+# def pictures_gallery(request, news_id):
+#     pictures = Picture.objects.filter(news_id=news_id)
+#     return render(request, 'pictures_gallery.html', {'pictures': pictures})
 
+def pictures_gallery(request, news_id):
+    pictures = Picture.objects.filter(news_id=news_id)
+    news = get_object_or_404(News, id=news_id)
+    news_detail_url = reverse('news_detail', args=[news_id])
+    context = {
+        'pictures': pictures,
+        'news_id': news_id,
+        'news': news,
+        'news_detail_url': news_detail_url,
+    }
+    return render(request, 'pictures_gallery.html', context)
 
 def news_detail(request, news_id):
     news = get_object_or_404(News, id=news_id)
