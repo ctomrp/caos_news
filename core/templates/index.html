@@ -8,23 +8,24 @@
 <div class="index-template bg-body-tertiary p-3">
 <div id="carouselExampleCaptions" class="carousel slide">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      {% for i in data %}
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+      {% endfor %}
     </div>
     <div class="carousel-inner">
       {% for i in data %}
-      <div class="carousel-item {% if forloop.last %}active{% endif %}">
-        <h1 class="fw-semibold">{{ i.title }}</h1>
-        <a href="{% url 'news_detail' i.id %}">
-          {% if i.photo %}
-          <img src="../../../media/{{ i.photo }}" class="card-img-top photo" alt="...">
-          {% else %}
-          <img src="../../static/img/no_image.png" class="card-img-top photo" alt="...">
-          {% endif %}          <div class="carousel-caption d-none d-md-block">
-          </div>
-        </a>
-      </div>
+        {% for picture in pictures %}
+          {% if forloop.parentloop.counter0 == forloop.counter0 %}
+            <div class="carousel-item {% if forloop.parentloop.last and forloop.last %}active{% endif %}">
+              <h1 class="fw-semibold">{{ i.title }}</h1>
+              <a href="{% url 'news_detail' i.id %}">
+                <img src="{{ picture.picture.url }}" class="card-img-top photo" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
       {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">

@@ -1,39 +1,72 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required,user_passes_test
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from .forms import *
+from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from django.http import HttpResponse, HttpResponseRedirect
-from .models import NewsCategory,NewsState,News
-from django.db.models import Max
 from django.shortcuts import get_object_or_404
-import os 
-from django.conf import settings
 from django.shortcuts import render, redirect
 from .models import ContactForm
 from .forms import ContactForm as cf
 
 def index(request):
     data = News.objects.filter(headline=True)
-    # last = News.objects.aggregate(date=Max('date'))
-    # contexto = {'data': data, 'last_date': last['date']}
-    return render(request, 'index.html', {'data': data})
+    pictures = Picture.objects.filter(news__in=data, principal=True)
+    return render(request, 'index.html', {'data': data, 'pictures': pictures})
+
 
 def base_context(request):
     categories = NewsCategory.objects.all()
     return {'categories': categories}
 
-# def news_gallery(request):
-#     data = News.objects.all()
-#     return render(request,'news_gallery.html', {'data':data})
 
-# def news_by_author(request):
-#     grupo_periodista = Group.objects.get(name='periodista')
-#     periodistas = User.objects.filter(groups=grupo_periodista)
-#     news = News.objects.filter(author__user__in=periodistas)    
-#     return render(request, 'journalist.html', {'news': news})
+
+##########################
+#   news
+##########################
+
+@login_required
+@user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
+def crear_noticia(request):
+    data = NewsCategory.objects.all()
+    if request.method == 'POST':
+        user_id = request.user.id
+        auto = User.objects.get(id=user_id)
+
+        form = crearNoticiaForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            titulo = form.cleaned_data['title']
+            articulo = form.cleaned_data['article']
+            categoria = form.cleaned_data['category']
+            ubicacion = form.cleaned_data['ubicacion']
+
+            # Guardar la noticia en la base de datos
+            objCategory = NewsCategory.objects.get(id=categoria.id)
+            objState = NewsState.objects.get(id=1)
+            objNews = News.objects.create(
+                title=titulo,
+                article=articulo,
+                author=auto,
+                category=objCategory,
+                state=objState,
+                location=ubicacion
+            )
+
+            # Obtener las imágenes del formulario
+            fotos = request.FILES.getlist('photo')
+
+            # Guardar cada imagen en la tabla Picture asociada a la noticia
+            for foto in fotos:
+                picture = Picture.objects.create(picture=foto, news=objNews)
+
+            return redirect('index')
+        else:
+            print(form.errors)
+    return render(request, 'create_news.html', {'data': data})
+
+from django.db.models import Q
 
 def news_gallery(request):
     author_id = request.GET.get('author_id')
@@ -56,30 +89,43 @@ def news_gallery(request):
 
     return render(request, 'news_gallery.html', {'news': news})
 
+
+
+
+def news_detail(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    detail = News.objects.get(id = news.id)
+    pictures = Picture.objects.filter(news_id=news.id)
+
+    return render(request, 'news_detail.html', {'news': news, 'detail': detail, 'pictures': pictures})
+
+def news_pictures(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    print(news.id)
+    pictures = Picture.objects.filter(news_id=news.id)
+    print(pictures)
+    return render(request, 'news_detail.html', {'news': news, 'pictures': pictures})
+
+
+def news_state(request):
+    return render(request, 'news_state.html')
+
 @login_required
 def news_premium(request):
     news_premium = News.objects.filter(premium=1)
     return render(request, 'news_premium.html', {'news_premium': news_premium})
 
 
-def pictures_gallery(request):
-    data = News.objects.get()
-    return render(request, 'pictures_gallery.html')
+def pictures_gallery(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    pictures = Picture.objects.filter(news_id=news.id)
+    return render(request, 'pictures_gallery.html', {'news': news, 'pictures': pictures})
 
-#def login(request):
-#    return render(request, 'login.html')
 
 def register(request):
     return render(request, 'register.html')
 
-def news_detail(request, news_id):
-    news = get_object_or_404(News, id=news_id)
-    detail = News.objects.get(id = news.id)
-    print(detail.photo)
-    return render(request, 'news_detail.html', {'detail': detail})
 
-def news_state(request):
-    return render(request, 'news_state.html')
 
 def news_feedback(request):
     return render(request, 'news_feedback.html')
@@ -91,24 +137,6 @@ def journalist(request):
 
 def recover_password(request):
     return render(request, 'recover_password.html')
-
-
-# def registrarUsuario(request):
-#     
-#     if request.method == 'GET':
-#         return render(request ,'register.html',{
-#             'form': UserCreationForm
-#         })
-#     else:
-#         if request.POST['password'] == request.POST['password2']:
-#             try:     
-#                 User.objects.create_user(first_name=request.POST['name'],last_name=request.POST['last_name'],password=request.POST['password'],email=request.POST['email'])
-#                 User.save()
-#                 return HttpResponse('Usuario Creado Correctamente')
-#             except:
-#                 return('Usuario ya existe')
-#     return HttpResponse('Contraseñas no coinciden')   
-# 
 
 def auth_register(request):
     if request.method=='POST':
@@ -145,67 +173,10 @@ def auth_login(request):
             return render(request, 'login.html',{'error':error})
     else:
         return render(request,'login.html')
-    
-# @login_required
-# def create_news(request):
-#     es_periodista = request.User.groups.filter(name='Periodista').exists()
-#     return render(request, 'create_news.html',{'es_periodista':es_periodista})
 
 def exit(request):
     logout(request)
     return redirect('auth_login')
-
-# def category_values(request):
-#     data = NewsCategory.objects.all()
-#     return render(request,'create_news.html', {'data':data})
-
-@login_required
-@user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
-def crear_noticia(request):
-    data = NewsCategory.objects.all()
-    if request.method == 'POST':
-        user_id = request.user.id
-        auto= User.objects.get(id=user_id)
-
-        form = crearNoticiaForm(request.POST,request.FILES)
-        
-        if form.is_valid():
-            titulo = request.POST['title']
-            articulo = request.POST['article']
-            categoria = request.POST['category']
-            foto = request.FILES['photo']
-            ubicacion = request.POST['ubicacion']
-            # # Guardar la foto en la carpeta media
-            # photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-            # with open(photo_path, 'wb') as file:
-            #     for chunk in foto.chunks():
-            #         file.write(chunk)
-             # Obtener una lista de archivos enviados
-            fotos = request.FILES.getlist('photo')
-            for foto in fotos:
-            # Guardar cada foto en la carpeta media
-                photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-                with open(photo_path, 'wb') as file:
-                    for chunk in foto.chunks():
-                        file.write(chunk)        
-
-                objCategory = NewsCategory.objects.get(id=categoria)
-                objState = NewsState.objects.get(id=1) 
-                objNews = News.objects.create(
-                    title=titulo,
-                    article=articulo,
-                    author=auto,
-                    category=objCategory,
-                    photo=foto,
-                    location=ubicacion,
-                    state=objState
-                )
-            objNews.save()
-            return redirect('index')
-        else:
-            print(form.errors)
-    return render(request, 'create_news.html', {'data': data})
-
 
 def contact(request):
     if request.method == 'POST':

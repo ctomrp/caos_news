@@ -7,3 +7,4 @@ admin.site.register(NewsState)
 
 admin.site.register(News)
 admin.site.register(ContactForm)
+admin.site.register(Picture)

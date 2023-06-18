@@ -10,7 +10,12 @@
   {% for n in news %}
   {% if n.state.id == 1 and n.premium == 0 %}
     <div class="card shadow-lg" style="width: 18rem;">
-      <img src="../../../media/{{ n.photo }}" class="card-img-top preview" alt="...">
+      {% for picture in pictures %}
+      {% if picture.principal %}
+      <img src="{{ picture.picture.url }}" alt="Imagen de la noticia" class="w-75">
+      {% endif %}
+    
+      {% endfor %}
       <div class="card-body">
           <h5 class="card-title text-center text-uppercase">{{n.title}}</h5>
           <p class="card-text">{{n.article}}</p>
@@ -25,3 +30,8 @@
     </div>
 
   {% endblock %}
+
+
+
+
+

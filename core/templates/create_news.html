@@ -16,15 +16,11 @@
             <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
             <label for="articleId" class="form-label mx-2">Artículo</label>
         </div>
-        {% comment %} <div class="form-floating">
-            <input type="text" class="form-control" id="authorId" name="author" required placeholder="Autor"/>
-            <label for="authorId" class="form-label mx-2">Autor</label>
-        </div> {% endcomment %}
         <select class="form-select" aria-label="Default select example" name="category" id="categoryId">
-            <option selected disabled>Elige una categoria</option>
+            <option selected disabled>Elige una categoría</option>
             {% if data %}
-                {% for i in data %}
-            <option value="{{i.id}}">{{i.category}}</option>
+                {% for category in data %}
+                    <option value="{{ category.id }}">{{ category.category }}</option>
                 {% endfor %}
             {% endif %}
         </select>
@@ -33,13 +29,13 @@
             <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
         </div>
         <div class="form-floating">
-            <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Autor"/>
-            <label for="ubicacionId" class="form-label mx-2">ubicacion</label>
+            <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Ubicación"/>
+            <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
         </div>
         <br><br><br>
         <div class="col-12 btn-section">
             <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
-            <button class="btn btn-secondary w-50 shadow" type="submit">Limpiar</button>
+            <button class="btn btn-secondary w-50 shadow" type="reset">Limpiar</button>
         </div>
     </form>
 </div>
