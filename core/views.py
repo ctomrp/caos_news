@@ -5,11 +5,14 @@ from .forms import *
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import ContactForm
-from .forms import ContactForm as cf
+from .forms import ContactForm
+from .forms import ContactFormForm
 
 def index(request):
     data = News.objects.filter(headline=True)
@@ -134,8 +137,32 @@ def news_state(request):
 
 @login_required
 def news_premium(request):
-    news_premium = News.objects.filter(premium=1)
-    return render(request, 'news_premium.html', {'news_premium': news_premium})
+    author_id = request.GET.get('author_id')
+    category_id = request.GET.get('category_id')
+    search_query = request.GET.get('search_query')
+
+    news = News.objects.all()
+
+    if author_id:
+        news = news.filter(author__id=author_id)
+
+    if category_id:
+        news = news.filter(category_id=category_id)
+
+    if search_query:
+        news = news.filter(
+            Q(title__icontains=search_query) |
+            Q(article__icontains=search_query)
+        )
+
+    for news_item in news:
+        picture = Picture.objects.filter(news_id=news_item.id, principal=True).first()
+        if picture:
+            news_item.image = picture.picture.url
+        else:
+            news_item.image = 'images/default-image.png'  # Ruta a la imagen por defecto
+
+    return render(request, 'news_premium.html', {'news': news})
 
 
 def pictures_gallery(request, news_id):
@@ -200,26 +227,51 @@ def exit(request):
     logout(request)
     return redirect('auth_login')
 
+# def contact(request):
+#     if request.method == 'POST':
+#         form = cf(request.POST)
+#         if form.is_valid():
+#             name = request.POST['name']
+#             last_name = request.POST['last_name']
+#             email = request.POST['email']
+#             email2 = request.POST['email2']
+#             phone = request.POST['phone']
+#             comment = request.POST['comment']
+#             form = ContactForm.objects.create(
+#                 name = name,
+#                 last_name = last_name,
+#                 email = email,
+#                 email2 = email2,
+#                 phone = phone,
+#                 comment = comment,
+#             )
+#             form.save()
+#             return redirect('index')  # Redirigir a una página de éxito o cualquier otra página
+#     else:
+#         form = cf()
+#     return render(request, 'contact.html', {'form': form})
+
+# def contact(request):
+#     if request.method == 'POST':
+#         form = ContactFormForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('index')
+#     else:
+#         form = ContactFormForm()
+    
+#     return render(request, 'contact.html', {'form': form})
+
+
+
 def contact(request):
     if request.method == 'POST':
-        form = cf(request.POST)
+        form = ContactFormForm(request.POST)
         if form.is_valid():
-            name = request.POST['name']
-            last_name = request.POST['last_name']
-            email = request.POST['email']
-            email2 = request.POST['email2']
-            phone = request.POST['phone']
-            comment = request.POST['comment']
-            form = ContactForm.objects.create(
-                name = name,
-                last_name = last_name,
-                email = email,
-                email2 = email2,
-                phone = phone,
-                comment = comment,
-            )
+            print('hola')
             form.save()
-            return redirect('index')  # Redirigir a una página de éxito o cualquier otra página
+            return redirect('index')
     else:
-        form = cf()
+        form = ContactFormForm()
+    
     return render(request, 'contact.html', {'form': form})

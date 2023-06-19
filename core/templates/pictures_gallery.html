@@ -5,8 +5,8 @@
 <div class="text-left mt-4 d-flex justify-content-between">
   <h1>Galería de imágenes</h1>
 </div>
-<a href="{% url 'news_detail' news_id=news.id %}" class="btn btn-primary">Volver</a>  
 <hr>
+<a href="{% url 'news_detail' news_id=news.id %}" class="btn btn-primary">Volver</a>  
 <div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
 
   {% for picture in pictures %}
