@@ -1,54 +1,32 @@
-{% extends 'layouts/base_user.html' %}
+{% extends 'layouts/base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<div class="form-template text-center mt-5">
-    <h1>Editar noticia</h1>
-    <br>
-    <section class="feedback">
-        <br>
-        <div class="card text-bg-warning mb-3 w-100">
-            <div class="card-header">Comentario</div>
-            <div class="card-body">
-              <h5 class="card-title">Corregir la ortografía</h5>
-              <p class="card-text">La palabra ahí está escrita como ay y hay</p>
-            </div>
-          </div>          
-        <br>
-    </section>
-    <form class="row g-3" method="POST" action="" enctype="multipart/form-data">
-        {% csrf_token %}
 
-        <div class="form-floating">
-            <input type="text" class="form-control" id="titleId" name="title" required placeholder="Título"/>
-            <label for="titleId" class="form-label mx-2">Título</label>
-        </div>
-        <div class="form-floating">
-            <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
-            <label for="articleId" class="form-label mx-2">Artículo</label>
-        </div>
-        <select class="form-select" aria-label="Default select example" name="category" id="categoryId">
-            <option selected disabled>Elige una categoría</option>
-            {% if data %}
-                {% for category in data %}
-                    <option value="{{ category.id }}">{{ category.category }}</option>
-                {% endfor %}
-            {% endif %}
-        </select>
-        <div class="mb-3">
-            <label for="formFileSm" class="form-label">Elige tus fotos</label>
-            <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
-        </div>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Ubicación"/>
-            <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
-        </div>
-        <br><br><br>
-        <div class="col-12 btn-section">
-            <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
-            <button class="btn btn-secondary w-50 shadow" type="reset">Limpiar</button>
-        </div>
-    </form>
+<div class="index-template bg-primary p-3">
+
+<h1>{{ detail.title }}</h1>
+<p class="card-text">Autor: 
+{{ detail.author }}<br>
+{{ detail.date }}</p>
+<hr>
+<p>
+  <a href="{% url 'pictures_gallery' detail.id %}" class="btn btn-primary">Ir a galería de imágenes</a>
+</p>
+<div class="card w-100 p-5">
+  
+  <div class="d-flex mx-auto justify-content-center">
+    {% for picture in pictures %}
+    {% if picture.principal %}
+    <img src="{{ picture.picture.url }}" alt="Imagen de la noticia" class="w-75">
+    {% endif %}
+    
+    {% endfor %}
+  </div>
+  <div class="card-body">
+    <hr>
+      <p class="card-text">{{ detail.article }}</p>
+    </div>
+  </div>
+
 </div>
-{% endif %}
 {% endblock %}

@@ -50,16 +50,31 @@
                 <li class="nav-item">
                   <a class="nav-link " aria-current="page" href="{% url 'contact' %}">Contacto</a>
                 </li>
-                {% if perms.core.add_news %}
-                <li class="nav-item">
-                  <a class="nav-link " aria-current="page" href="{% url 'create_news' %}">Panel de trabajo</a>
+
+                {% if request.user.is_authenticated and perms.core.change_newsstate or perms.core.add_news %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Panel de trabajo
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% if perms.core.change_newsstate %}
+                    <li class="nav-item">
+                      <a class="nav-link " aria-current="page" href="{% url 'news_state' %}">Consultar estado de noticias</a>
+                    </li>
+                    {% endif%}
+                    {% if perms.core.add_news %}
+                    <li class="nav-item">
+                      <a class="nav-link " aria-current="page" href="{% url 'create_news' %}">Crear noticia</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " aria-current="page" href="{% url 'news_state' %}">Consultar estado de noticias</a>
+                    </li>
+                    {% endif %}
+                  </ul>
                 </li>
-                {% endif%}
-                {% if perms.core.change_newsstate %}
-                  <li class="nav-item">
-                  <a class="nav-link " aria-current="page" href="{% url 'news_state' %}">Panel de trabajo</a>
-                </li>
-                {% endif%}
+                {% endif %}
+
+                
               </ul>
               <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">

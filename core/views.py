@@ -173,8 +173,6 @@ def register(request):
 
 
 
-def news_feedback(request):
-    return render(request, 'news_feedback.html')
 
 def journalist(request):
     grupo_periodista = Group.objects.get(name='periodista')
@@ -300,3 +298,10 @@ def editor_dash(request):
 
 def edit_news(request):
     return render(request, 'edit_news.html')
+
+def news_feedback(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    detail = News.objects.get(id = news.id)
+    pictures = Picture.objects.filter(news_id=news.id)
+
+    return render(request, 'news_feedback.html', {'news': news, 'detail': detail, 'pictures': pictures})

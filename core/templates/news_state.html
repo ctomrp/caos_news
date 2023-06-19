@@ -1,4 +1,4 @@
-{% extends 'layouts/base_user.html' %}
+{% extends 'layouts/base.html' %}
 
 {% block content %}
 
@@ -23,7 +23,7 @@
             <td>{{ item.author }}</td>
             <td>{{ item.state }}</td>
             {% if item.state.id == 3 %}
-            <td><a class="btn btn-warning shadow" href="{% url 'news_feedback' %}" role="button">Ver detalle</a>
+            <td><a class="btn btn-warning shadow" href="{% url 'news_detail' item.id %}" role="button">Ver detalle</a>
               {% else %}
               <td><a class="btn btn-primary shadow" href="{% url 'news_detail' item.id %}" role="button">Ver noticia</a>
               {% endif %}
@@ -36,7 +36,7 @@
             <td>{{ item.author }}</td>
             <td>{{ item.state }}</td>
             {% if item.state.id == 3 %}
-            <td><a class="btn btn-warning shadow" href="{% url 'news_feedback' %}" role="button">Ver detalle</a>
+            <td><a class="btn btn-warning shadow" href="{% url 'news_detail' item.id %}" role="button">Ver detalle</a>
               {% else %}
               <td><a class="btn btn-primary shadow" href="{% url 'news_detail' item.id %}" role="button">Ver noticia</a>
               {% endif %}
