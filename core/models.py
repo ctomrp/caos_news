@@ -34,7 +34,7 @@ class Picture(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='images')
     principal = models.BooleanField(default=False)
 
-class ContactForm(models.Model):
+class Contacto(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
     last_name = models.CharField(max_length=50, blank=False, null=False)
     email = models.EmailField(max_length=50, blank=False, null=False)

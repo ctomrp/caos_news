@@ -2,9 +2,7 @@ from django import forms
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Group,User
-from .models import NewsCategory
-from .models import ContactForm
-
+from .models import *
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(min_length=2,max_length=15)
@@ -40,28 +38,10 @@ class crearNoticiaForm(forms.Form):
     ubicacion = forms.CharField(max_length=40)
 
 
-# class ContactFormForm(forms.Form):
-#     name = forms.CharField(min_length=3,max_length=15)
-#     last_name = forms.CharField(min_length=5,max_length=15)
-#     email = forms.EmailField()
-#     email2 = forms.EmailField()
-#     phone = forms.IntegerField()
-#     comment = forms.Textarea()
-
-
-class ContactFormForm(forms.ModelForm):
-    email2 = forms.EmailField(label='Confirme correo electrónico')
-
-    class Meta:
-        model = ContactForm
-        fields = ['name', 'last_name', 'email', 'email2', 'phone', 'comment']
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        email2 = cleaned_data.get('email2')
-
-        if email and email2 and email != email2:
-            raise forms.ValidationError("Los correos electrónicos no coinciden.")
-
-        return cleaned_data
+class ContactForm(forms.Form):
+    name = forms.CharField(min_length=3,max_length=15)
+    last_name = forms.CharField(min_length=5,max_length=15)
+    email = forms.EmailField()
+    email2 = forms.EmailField()
+    phone = forms.IntegerField()
+    comment = forms.Textarea()

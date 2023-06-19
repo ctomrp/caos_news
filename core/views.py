@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User, Group
+from django.db.models import Q
 from .forms import *
 from .models import *
 from django.contrib import messages
@@ -10,9 +11,6 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import ContactForm
-from .forms import ContactForm
-from .forms import ContactFormForm
 
 def index(request):
     data = News.objects.filter(headline=True)
@@ -70,7 +68,6 @@ def crear_noticia(request):
             print(form.errors)
     return render(request, 'create_news.html', {'data': data})
 
-from django.db.models import Q
 
 def news_gallery(request):
     author_id = request.GET.get('author_id')
@@ -263,15 +260,26 @@ def exit(request):
 #     return render(request, 'contact.html', {'form': form})
 
 
-
 def contact(request):
     if request.method == 'POST':
-        form = ContactFormForm(request.POST)
+        form = Contacto(request.POST)
+
         if form.is_valid():
-            print('hola')
-            form.save()
+            name = form.cleaned_data['name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            phone = form.cleaned_data['phone']
+            comment = form.cleaned_data['comment']
+        
+            form = ContactForm.objects.create(
+                name = name,
+                last_name = last_name,
+                email = email,
+                phone = phone,
+                comment = comment
+            )
+            form.save
             return redirect('index')
-    else:
-        form = ContactFormForm()
-    
-    return render(request, 'contact.html', {'form': form})
+        else:
+            print(form.errors)
+    return(render(request,'contact.html'))
