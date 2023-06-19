@@ -16,20 +16,7 @@
         </thead>
         <tbody>
           {% for item in news %}
-          {% if request.user.is_authenticated and user.id == item.author.id and perms.core.add_news %}
-          <tr class="n_fila">
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ item.title }}</td>
-            <td>{{ item.author }}</td>
-            <td>{{ item.state }}</td>
-            {% if item.state.id == 3 %}
-            <td><a class="btn btn-warning shadow" href="{% url 'news_feedback' %}" role="button">Ver detalle</a>
-              {% else %}
-              <td><a class="btn btn-primary shadow" href="{% url 'news_detail' item.id %}" role="button">Ver noticia</a>
-              {% endif %}
-            </td>
-          </tr>
-          {% elif request.user.is_authenticated and perms.core.change_newsstate %}
+          {% if request.user.is_authenticated  %}
           <tr class="n_fila">
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ item.title }}</td>

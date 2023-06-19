@@ -76,3 +76,14 @@ $("#passwordId2").on("input", () => {
         parrafo.text("");
     }
 });
+
+function assignRowNumbers() {
+    var rows = document.querySelectorAll('.n_fila');
+    rows.forEach(function(row, index) {
+      var numberCell = row.querySelector('.fila-number');
+      numberCell.textContent = index + 1;
+    });
+  }
+
+  // Llamada a la función para asignar los números de fila inicialmente
+  assignRowNumbers();

@@ -52,12 +52,13 @@
                 </li>
                 {% if perms.core.add_news %}
                 <li class="nav-item">
-                  <a class="nav-link " aria-current="page" href="{% url 'create_news' %}">Registar Noticia</a>
+                  <a class="nav-link " aria-current="page" href="{% url 'create_news' %}">Panel de trabajo</a>
                 </li>
-                {% comment %} {%else%}
-                <li class="nav-item">
-                  <a class="nav-link disabled" aria-current="page" aria-disabled="true" href="{% url 'create_news' %}">Registar Noticia</a>
-                </li> {% endcomment %}
+                {% endif%}
+                {% if perms.core.change_newsstate %}
+                  <li class="nav-item">
+                  <a class="nav-link " aria-current="page" href="{% url 'news_state' %}">Panel de trabajo</a>
+                </li>
                 {% endif%}
               </ul>
               <form class="d-flex" role="search">

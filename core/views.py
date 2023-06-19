@@ -283,3 +283,20 @@ def contact(request):
         else:
             print(form.errors)
     return(render(request,'contact.html'))
+
+
+def news_state(request):
+    author_id = request.GET.get('author_id')
+
+    news = News.objects.all()
+
+    if author_id:
+        news = news.filter(author__id=author_id)
+        
+    return render(request, 'news_state.html', {'news': news})
+
+def editor_dash(request):
+    return render(request, 'editor_dash.html')
+
+def edit_news(request):
+    return render(request, 'edit_news.html')
