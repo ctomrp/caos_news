@@ -73,6 +73,21 @@ a, a h1 {
     height: calc(100% - 450px);
 }
 
+.link-opt {
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 0.25rem;
+  }
+  
+  .link-opt:hover,
+  .link-opt:focus {
+    background-color: #f05742ff;
+    color: whitesmoke;
+  }
+  
+  .link-opt:not(:hover):not(:focus) {
+    background-color: transparent;
+  }
+
 /* Estilos para pantallas medianas */
 @media screen and (max-width: 1200px) {
     header, main, footer, .navbar{
