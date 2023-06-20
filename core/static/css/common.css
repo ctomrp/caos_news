@@ -73,6 +73,10 @@ a, a h1 {
     height: calc(100% - 450px);
 }
 
+.card-news:hover{
+    transform: scale(1.05) rotate(3deg);
+}
+
 /* Estilos para pantallas medianas */
 @media screen and (max-width: 1200px) {
     header, main, footer, .navbar{
