@@ -41,6 +41,30 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+  <br>
+  <hr>
+<h3>Otras noticias</h3>
+  <hr>
+  <br>
+  <!--galeria de noticias-->
+  <div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
+
+    {% for n in news %}
+    {% if n.state.id == 1 and n.premium == 0 %}
+      <div class="card shadow-lg" style="width: 350px; height: 500px">
+        <img src="{{ n.image }}" alt="Imagen de la noticia" class="w-100 h-100 mx-auto">
+        <div class="card-body">
+            <h5 class="card-title text-center text-uppercase">{{ n.title }}</h5>
+            <div class="d-flex justify-content-center">
+              <a href="{% url 'news_detail' n.id %}" class="btn btn-primary shadow w-100">Ver noticia</a>
+            </div>
+          </div>
+        </div>
+        <br>
+      {% endif %}
+    {% endfor %}
+  
+  </div>
 
 </div>
 {% endblock %}

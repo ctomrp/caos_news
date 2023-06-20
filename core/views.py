@@ -15,7 +15,17 @@ from django.urls import reverse
 def index(request):
     data = News.objects.filter(headline=True, state_id=1)
     pictures = Picture.objects.filter(news__in=data, principal=True)
-    return render(request, 'index.html', {'data': data, 'pictures': pictures})
+
+    news = News.objects.all()
+
+    for news_item in news:
+        picture = Picture.objects.filter(news_id=news_item.id, principal=True).first()
+        if picture:
+            news_item.image = picture.picture.url
+        else:
+            news_item.image = 'images/default-image.png'  # Ruta a la imagen por defecto
+
+    return render(request, 'index.html', {'data': data, 'pictures': pictures, 'news': news})
 
 
 def base_context(request):
