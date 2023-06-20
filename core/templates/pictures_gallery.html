@@ -10,11 +10,13 @@
 <div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
 
   {% for picture in pictures %}
+  {% if picture.active %}
   <div class="card shadow-lg {% if small_screen %}w-100{% endif %} p-5" style="max-width: 750px; height: auto;">
 
       <img src="{{ picture.picture.url }}" class="card-img-top" alt="...">
     </div>
     <br>
+  {% endif %}
   {% endfor %}
   
   

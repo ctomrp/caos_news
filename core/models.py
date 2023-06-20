@@ -32,6 +32,7 @@ class Picture(models.Model):
     picture = models.ImageField(upload_to='')
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='images')
     principal = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
 class Contacto(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)

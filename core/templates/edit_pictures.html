@@ -32,8 +32,13 @@
         </div>
 
         <div class="form-check form-check-inline img-edit-input d-flex mx-auto justify-content-center">
-            <input class="form-check-input border border-dark" type="radio" name="picture" id="{{ picture.id }}">
-            <label class="form-check-label" for="{{ picture.id }}">&nbsp;Imagen principal</label>
+            <input class="form-check-input border border-dark" type="radio" name="principal" id="{{ picture.id }}">
+            <label class="form-check-label fw-semibold" for="{{ picture.id }}">&nbsp;Imagen principal</label>
+        </div>
+
+        <div class="form-check col d-flex justify-content-center">
+            <input class="form-check-input border border-dark" type="checkbox" value="{{ picture.active }}" id="{{ picture.id }}">
+            <label class="form-check-label fw-semibold" for="{{ picture.id }}">&nbsp;Imagen activa</label>
         </div>
         
     </div>
