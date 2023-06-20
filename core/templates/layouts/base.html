@@ -93,7 +93,7 @@
                       {% endif %}  
                       <ul class="dropdown-menu">
                         {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{{ 'logout' }}">Desconectar</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Desconectar</a></li>
                         {% else %}
                         <li><a class="dropdown-item" href="{% url 'auth_login' %}">Ingresar</a></li>
                         <li><a class="dropdown-item" href="{% url 'auth_register' %}">Registrarse</a></li>

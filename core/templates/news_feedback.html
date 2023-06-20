@@ -2,7 +2,8 @@
 
 {% block content %}
 {% if request.user.is_authenticated and perms.core.add_news %}
-<h1 class="bg-dark text-light p-3 rounded shadow">Editar noticia</h1>
+<div class="bg-dark rounded shadow p-3">
+    <h1 class="bg-dark text-light p-3 rounded">Editar noticia</h1>
 <hr>
 <form class="" method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
@@ -19,6 +20,7 @@
     <div class="d-flex justify-content-center">
         <button class="btn btn-primary w-50 shadow" type="submit">Guardar edición</button>
     </div>
+</div>
 </div>
 
 <hr>

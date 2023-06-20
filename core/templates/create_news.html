@@ -2,10 +2,16 @@
 
 {% block content %}
 {% if request.user.is_authenticated and perms.core.add_news %}
-<h1 class="bg-dark text-light p-3 rounded shadow">Crear noticia</h1>
-<hr>
+<div class="bg-dark p-3 shadow rounded">
+    <h1 class="bg-dark text-light p-3 rounded">Crear noticia</h1>
 <form class="" method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
+    <div class="w-50 btn-section">
+        <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
+        <button class="btn btn-light w-50 shadow" type="reset">Limpiar</button>
+    </div>
+</div>
+    <hr>
 
     <div class="form-floating">
         <input type="text" class="form-control" id="titleId" name="title" required placeholder="Título"/>
@@ -36,10 +42,7 @@
         <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
     </div>
     <br>
-    <div class="w-50 btn-section">
-        <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
-        <button class="btn btn-secondary w-50 shadow" type="reset">Limpiar</button>
-    </div>
+
 
 </form>
 {% endif %}
