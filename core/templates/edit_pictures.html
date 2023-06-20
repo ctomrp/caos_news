@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated and perms.core.change_newsstate %}
+<h1 class="bg-dark text-light p-3 rounded shadow">Seleccionar imagen principal</h1>
+<hr>
+<form class="" method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+<div class="editor-control">
+
+<!--opciones de edición-->
+    <div class="d-flex flex-row gap-5 bg-secondary p-3 rounded shadow align-items-center">
+        <a href="{% url 'edit_news' news_id=news.id %}" class="btn btn-light col shadow">Volver</a>
+        <div class="d-flex justify-content-center col">
+            <button class="btn btn-primary w-100 shadow" type="submit">Guardar imagen principal</button>
+        </div>
+    </div>
+<br>
+</div>
+
+<hr>
+
+<div class="d-flex flex-row flex-wrap justify-content-center gap-5">
+    {% for picture in pictures %}
+    <div class="card mb-5 shadow-lg {% if small_screen %}w-100{% endif %} p-5" style="max-width: 750px; height: auto;">
+    
+        <div class="img-edit-img d-flex align-items-center justify-content-center">
+            <img src="{{ picture.picture.url }}" alt="Imagen de la noticia" class="h-100 w-100">
+        </div>
+
+        <div class="form-check form-check-inline img-edit-input d-flex mx-auto justify-content-center">
+            <input class="form-check-input border border-dark" type="radio" name="picture" id="{{ picture.id }}">
+            <label class="form-check-label" for="{{ picture.id }}">&nbsp;Imagen principal</label>
+        </div>
+        
+    </div>
+    <br>
+    {% endfor %}    
+</div>
+
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated and perms.core.change_newsstate %}
+<h1 class="bg-dark text-light p-3 rounded shadow">Editar noticia</h1>
+<hr>
+<form class="" method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+
+<div class="editor-control">
+
+<!--opciones de edición-->
+    <div class="d-flex flex-row gap-5 bg-secondary p-3 rounded shadow align-items-center">
+        <select class="form-select col d-flex justify-content-center" aria-label="Default select example">
+            <option selected disabled>Seleccione el estado de la noticia</option>
+            {% for state in states %}
+            <option value="{{ state.id }}">{{ state }}</a></option>
+            {% endfor %}
+        </select>    
+        <div class="form-check col d-flex justify-content-center">
+            <input class="form-check-input" type="checkbox" value="{{ detail.headline }}" id="{{ detail.headline }}">
+            <label class="form-check-label text-light fw-semibold" for="{{ detail.headline }}">&nbsp;Titular</label>
+        </div>    
+        <div class="form-check col d-flex justify-content-center">
+            <input class="form-check-input" type="checkbox" value="{{ detail.premium }}" id="{{ detail.premium }}">
+            <label class="form-check-label text-light fw-semibold" for="{{ detail.premium }}">&nbsp;Noticia premium</label>
+        </div>
+        <a href="{% url 'edit_pictures' detail.id %}" class="btn btn-light shadow col">Seleccionar imagen principal</a>
+    </div>
+    <br>
+    
+    <div class="form-floating">
+        <textarea class="form-control bg-warning shadow" id="articleId" name="feedback" style="height: 100px" required placeholder="Feedback" ></textarea>
+        <label for="articleId" class="form-label mx-2">Feedback</label>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary w-50 shadow" type="submit">Guardar edición</button>
+    </div>
+</div>
+
+<hr>
+
+<div class="index-template bg-body-tertiary p-3">
+
+    <h1>{{ detail.title }}</h1>
+    <p class="card-text">Autor:&nbsp;
+        {{ detail.author }}
+        <br>
+        {{ detail.date }}
+    </p>
+<hr>
+    <div class="card w-100 p-5">
+
+        <div class="card-body">
+            <p class="card-text">{{ detail.article }}</p>
+        </div>
+    </div>
+
+</div>
+
+</form>
+{% endif %}
+{% endblock %}
+
+
+
+

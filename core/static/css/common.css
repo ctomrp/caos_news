@@ -61,6 +61,18 @@ a, a h1 {
     width: 800px;
 }
 
+.img-edit-container{
+    height: 650px;
+}
+
+.img-edit-img{
+    height: 450px;
+}
+
+.img-edit-input{
+    height: calc(100% - 450px);
+}
+
 /* Estilos para pantallas medianas */
 @media screen and (max-width: 1200px) {
     header, main, footer, .navbar{

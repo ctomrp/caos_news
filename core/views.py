@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 def index(request):
-    data = News.objects.filter(headline=True)
+    data = News.objects.filter(headline=True, state_id=1)
     pictures = Picture.objects.filter(news__in=data, principal=True)
     return render(request, 'index.html', {'data': data, 'pictures': pictures})
 
@@ -30,7 +30,7 @@ def base_context(request):
 
 @login_required
 @user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
-def crear_noticia(request):
+def create_news(request):
     data = NewsCategory.objects.all()
     if request.method == 'POST':
         user_id = request.user.id
@@ -46,7 +46,7 @@ def crear_noticia(request):
 
             # Guardar la noticia en la base de datos
             objCategory = NewsCategory.objects.get(id=categoria.id)
-            objState = NewsState.objects.get(id=1)
+            objState = NewsState.objects.get(id=2)
             objNews = News.objects.create(
                 title=titulo,
                 article=articulo,
@@ -296,12 +296,31 @@ def news_state(request):
 def editor_dash(request):
     return render(request, 'editor_dash.html')
 
-def edit_news(request):
-    return render(request, 'edit_news.html')
+def edit_news(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    detail = News.objects.get(id = news.id)
+    pictures = Picture.objects.filter(news_id=news.id)
+    states = NewsState.objects.all()
+
+    return render(request, 'edit_news.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states})
 
 def news_feedback(request, news_id):
     news = get_object_or_404(News, id=news_id)
     detail = News.objects.get(id = news.id)
     pictures = Picture.objects.filter(news_id=news.id)
+    states = NewsState.objects.all()
+    category = NewsCategory.objects.all()
 
-    return render(request, 'news_feedback.html', {'news': news, 'detail': detail, 'pictures': pictures})
+    return render(request, 'news_feedback.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states, 'category': category})
+
+def edit_pictures(request, news_id):
+    pictures = Picture.objects.filter(news_id=news_id)
+    news = get_object_or_404(News, id=news_id)
+    news_detail_url = reverse('edit_news', args=[news_id])
+    context = {
+        'pictures': pictures,
+        'news_id': news_id,
+        'news': news,
+        'news_detail_url': news_detail_url,
+    }
+    return render(request, 'edit_pictures.html', context)

@@ -15,7 +15,7 @@
     <div class="carousel-inner">
       {% for i in data %}
         {% for picture in pictures %}
-        {% if i.premium != 1 and picture != 1 %}
+        {% if i.premium != 1 and i.state_id == 1 %}
           {% if forloop.parentloop.counter0 == forloop.counter0 %}
             <div class="carousel-item {% if forloop.parentloop.last and forloop.last %}active{% endif %}">
               <h1 class="fw-semibold">{{ i.title }}</h1>

@@ -9,7 +9,6 @@ class NewsCategory(models.Model):
 
 class NewsState(models.Model):
     state = models.CharField(max_length=50, blank=False, null=False)
-    feedback = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return str(self.state)
@@ -19,7 +18,7 @@ class News(models.Model):
     article = models.TextField(blank=False, null=False)
     headline = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
-    # photo = models.ImageField(upload_to='')
+    feedback = models.TextField(blank=True, null=True)
     premium = models.BooleanField(default=False)
     location = models.CharField(max_length=40,blank=False,null=False)
     author = models.ForeignKey(User,on_delete=models.CASCADE)

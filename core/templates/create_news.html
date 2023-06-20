@@ -1,43 +1,46 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<div class="form-template text-center mt-5">
-    <h1>Crear noticia</h1>
-    <br>
-    <form class="row g-3" method="POST" action="" enctype="multipart/form-data">
-        {% csrf_token %}
+{% if request.user.is_authenticated and perms.core.add_news %}
+<h1 class="bg-dark text-light p-3 rounded shadow">Crear noticia</h1>
+<hr>
+<form class="" method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
 
-        <div class="form-floating">
-            <input type="text" class="form-control" id="titleId" name="title" required placeholder="Título"/>
-            <label for="titleId" class="form-label mx-2">Título</label>
-        </div>
-        <div class="form-floating">
-            <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
-            <label for="articleId" class="form-label mx-2">Artículo</label>
-        </div>
-        <select class="form-select" aria-label="Default select example" name="category" id="categoryId">
-            <option selected disabled>Elige una categoría</option>
-            {% if data %}
-                {% for category in data %}
-                    <option value="{{ category.id }}">{{ category.category }}</option>
-                {% endfor %}
-            {% endif %}
-        </select>
-        <div class="mb-3">
-            <label for="formFileSm" class="form-label">Elige tus fotos</label>
-            <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
-        </div>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Ubicación"/>
-            <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
-        </div>
-        <br><br><br>
-        <div class="col-12 btn-section">
-            <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
-            <button class="btn btn-secondary w-50 shadow" type="reset">Limpiar</button>
-        </div>
-    </form>
-</div>
+    <div class="form-floating">
+        <input type="text" class="form-control" id="titleId" name="title" required placeholder="Título"/>
+        <label for="titleId" class="form-label mx-2">Título</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
+        <label for="articleId" class="form-label mx-2">Artículo</label>
+    </div>
+    <br>
+    <select class="form-select" aria-label="Default select example" name="category" id="categoryId">
+        <option selected disabled>Elige una categoría</option>
+        {% if data %}
+            {% for category in data %}
+                <option value="{{ category.id }}">{{ category.category }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+    <br>
+    <div class="mb-3">
+        <label for="formFileSm" class="form-label">Seleccionar imágenes</label>
+        <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Ubicación"/>
+        <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
+    </div>
+    <br>
+    <div class="w-50 btn-section">
+        <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
+        <button class="btn btn-secondary w-50 shadow" type="reset">Limpiar</button>
+    </div>
+
+</form>
 {% endif %}
 {% endblock %}
