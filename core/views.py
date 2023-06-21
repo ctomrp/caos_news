@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User, Group
 from django.db.models import Q
-from .forms import *
-from .models import *
+from .forms import RegistrationForm,crearNoticiaForm
+from .models import NewsCategory,News,Picture,NewsState,Contacto
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
@@ -232,64 +232,62 @@ def exit(request):
     logout(request)
     return redirect('auth_login')
 
-# def contact(request):
-#     if request.method == 'POST':
-#         form = cf(request.POST)
-#         if form.is_valid():
-#             name = request.POST['name']
-#             last_name = request.POST['last_name']
-#             email = request.POST['email']
-#             email2 = request.POST['email2']
-#             phone = request.POST['phone']
-#             comment = request.POST['comment']
-#             form = ContactForm.objects.create(
-#                 name = name,
-#                 last_name = last_name,
-#                 email = email,
-#                 email2 = email2,
-#                 phone = phone,
-#                 comment = comment,
-#             )
-#             form.save()
-#             return redirect('index')  # Redirigir a una página de éxito o cualquier otra página
-#     else:
-#         form = cf()
-#     return render(request, 'contact.html', {'form': form})
 
-# def contact(request):
-#     if request.method == 'POST':
-#         form = ContactFormForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('index')
-#     else:
-#         form = ContactFormForm()
-    
-#     return render(request, 'contact.html', {'form': form})
-
+# def guardar_foto(foto):
+#     # Guardar la foto en la carpeta media
+#     photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
+#     with open(photo_path, 'wb') as file:
+#         for chunk in foto.chunks():
+#             file.write(chunk)
 
 def contact(request):
     if request.method == 'POST':
-        form = Contacto(request.POST)
+            name = request.POST['nameC']
+            last_name = request.POST['lastnameC']
+            email = request.POST['emailC']
+            email2 = request.POST['email2C']
+            phone = request.POST['phoneC']
+            comment = request.POST['commentC']
+            
+            if email != email2:
+                messages.error(request, 'Los correos no coinciden')
+                return redirect('contact')
 
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
-            phone = form.cleaned_data['phone']
-            comment = form.cleaned_data['comment']
-        
-            form = ContactForm.objects.create(
-                name = name,
-                last_name = last_name,
-                email = email,
-                phone = phone,
-                comment = comment
+            Contacto.objects.create(
+                name=name,
+                last_name=last_name,
+                email=email,
+                phone=phone,
+                comment=comment
             )
-            form.save
-            return redirect('index')
-        else:
-            print(form.errors)
+            messages.success(request, 'Registro añadido correctamente')
+            return redirect('contact')
+    else:
+        return render(request,'contact.html')   
+    
+def buscar(request):
+    queryset = request.GET.get("buscar")
+    search = None
+    if queryset:
+        try:
+            objCategoria = NewsCategory.objects.get(Q(category__icontains=queryset))
+        except NewsCategory.DoesNotExist:
+            objCategoria = None
+        
+        try:
+            objUser = User.objects.get(username__icontains=queryset)
+        except User.DoesNotExist:
+            objUser = None
+        
+        try:
+            objNews = News.objects.get(Q(title__icontains=queryset)|Q(location__icontains=queryset))
+        except News.DoesNotExist:
+            objNews = None
+        
+        if objUser:
+            return redirect('journalist')
+        elif objCategoria or objNews:
+            return redirect('news_gallery')
     return(render(request,'contact.html'))
 
 
@@ -311,8 +309,37 @@ def edit_news(request, news_id):
     detail = News.objects.get(id = news.id)
     pictures = Picture.objects.filter(news_id=news.id)
     states = NewsState.objects.all()
-
-    return render(request, 'edit_news.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states})
+    # objFotos = get_object_or_404(Picture,news_id=news_id)
+    #######
+    if request.method == 'POST':
+        news.feedback = request.POST.get('feedback')
+        valorTitular =request.POST.get('titularCheckbox')
+        valorPremium = request.POST.get('premiumCheckbox')
+        if valorTitular is not None:
+            valorTitular = valorTitular.lower() =='false'
+            if valorTitular:
+                news.headline = True     
+            else:   
+                news.headline= False
+        else:
+            news.headline= False        
+        if valorPremium is not None:
+            valorPremium = valorPremium.lower() == 'false'
+            if valorPremium:
+                news.premium = True
+            else:
+                news.premium = False
+        else:
+            news.premium = False             
+        #obtener id de la tabla state segun el formulario
+            estado_id = request.POST.get('estadosNoticia')
+            estado = NewsState.objects.get(id=estado_id)
+            news.state = estado           
+            news.save()
+            messages.success(request, 'Edicion guardada  correctamente')
+            return redirect('news_state')
+    else:    
+        return render(request, 'edit_news.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states})
 
 def news_feedback(request, news_id):
     news = get_object_or_404(News, id=news_id)
@@ -327,6 +354,26 @@ def edit_pictures(request, news_id):
     pictures = Picture.objects.filter(news_id=news_id)
     news = get_object_or_404(News, id=news_id)
     news_detail_url = reverse('edit_news', args=[news_id])
+    if request.method =='POST':
+        listaFotoP={}
+        valorFotoP = request.POST.get('imgPrincipalRadio')
+        valorFotoA = request.POST.get('imgActiveCheckbox')
+        print(valorFotoP)
+        foto = Picture.objects.filter(news_id=news_id)
+        for i in foto:
+            listaFotoP["valorFotoP"]=(i.id,valorFotoP)
+            listaFotoP.update
+            print(listaFotoP)
+            # if valorFotoP is not None:
+            #     i.principal = True
+            # else:
+            #     i.principal = False    
+            # if valorFotoA is not None:
+            #     i.active = True
+            # else:
+            #     i.active = False
+            i.save()
+            messages.success(request,'Foto Seleccionada guardada con exito')
     context = {
         'pictures': pictures,
         'news_id': news_id,

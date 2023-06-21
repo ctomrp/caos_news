@@ -7,6 +7,21 @@
 <hr>
 <form class="" method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
+    {% if messages %}
+            {%for msg in messages%}
+              {%if msg.tags == 'error' %}
+              <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> 
+              {%elif msg.tags == 'success'%}
+              <div class="alert alert-success  alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> 
+              {%  endif %} 
+            {% endfor %}
+{%endif%} 
 
 <div class="editor-control">
 
@@ -32,12 +47,12 @@
         </div>
 
         <div class="form-check form-check-inline img-edit-input d-flex mx-auto justify-content-center">
-            <input class="form-check-input border border-dark" type="radio" name="principal" id="{{ picture.id }}">
+            <input class="form-check-input border border-dark" type="radio" name="imgPrincipalRadio" id="{{ picture.id }}" value="{{picture.principal}}">
             <label class="form-check-label fw-semibold" for="{{ picture.id }}">&nbsp;Imagen principal</label>
         </div>
 
         <div class="form-check col d-flex justify-content-center">
-            <input class="form-check-input border border-dark" type="checkbox" value="{{ picture.active }}" id="{{ picture.id }}">
+            <input class="form-check-input border border-dark" type="checkbox" value="{{picture.active}}" id="{{ picture.id }}" name="imgActiveCheckbox">
             <label class="form-check-label fw-semibold" for="{{ picture.id }}">&nbsp;Imagen activa</label>
         </div>
         
