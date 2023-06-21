@@ -60,7 +60,7 @@
       <tr>
         <td class="col">{{ forloop.counter }}</td>
         <td class="col">{{ item.title }}</td>
-        <td class="col">{{ item.author.first_name }}{{ item.author.last_name }}</td>
+        <td class="col">{{ item.author.first_name }} {{ item.author.last_name }}</td>
         <td class="col">{{ item.state }}</td>
 
         {% if item.state.id == 3 %}
