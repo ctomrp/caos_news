@@ -51,13 +51,13 @@
                   <a class="nav-link link-opt" aria-current="page" href="{% url 'contact' %}">Contacto</a>
                 </li>
 
-                {% if request.user.is_authenticated and perms.core.change_newsstate or perms.core.add_news %}
+                {% if request.user.is_authenticated and perms.core.delete_news or perms.core.add_news %}
                 <li class="nav-item dropdown">
                   <a class="nav-link link-opt dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Panel de trabajo
                   </a>
                   <ul class="dropdown-menu">
-                    {% if perms.core.change_newsstate %}
+                    {% if perms.core.delete_news %}
                     <li><a class="dropdown-item " aria-current="page" href="{% url 'news_state' %}">Consultar estado de noticias</a></li>
                     {% endif%}
                     {% if perms.core.add_news %}

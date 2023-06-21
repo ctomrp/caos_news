@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if request.user.is_authenticated and perms.core.add_news %}
-<div class="bg-dark rounded shadow p-3">
+<div class="bg-dark shadow rounded p-3 w-100 w-lg-50">
     <h1 class="bg-dark text-light p-3 rounded">Editar noticia</h1>
 <hr>
 <form class="" method="POST" action="" enctype="multipart/form-data">
@@ -17,45 +17,43 @@
         <label for="articleId" class="form-label mx-2">Feedback</label>
     </div>
     <br>
-    <div class="d-flex justify-content-center">
-        <button class="btn btn-primary w-50 shadow" type="submit">Guardar edición</button>
+    <div class="w-100 w-lg-50 btn-section">
+        <button class="btn btn-primary w-100 w-lg-50 shadow" type="submit">Modificar noticia</button>
+        <button class="btn btn-secondary w-100 w-lg-50 shadow" type="reset">Limpiar</button>
     </div>
 </div>
 </div>
 
 <hr>
 
-  <div class="form-floating">
-      <input type="text" class="form-control" id="titleId" name="title" value="{{ detail.title }}" required placeholder="Título"/>
-      <label for="titleId" class="form-label mx-2">Título</label>
+  <div class="form-floating w-100 w-lg-50">
+    <input type="text" class="form-control" id="titleId" name="titleF" value="{{ detail.title }}" required placeholder="Título"/>
+    <label for="titleId" class="form-label mx-2">Título</label>
   </div>
   <br>
-  <div class="form-floating">
-      <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" >{{ detail.article }}</textarea>
-      <label for="articleId" class="form-label mx-2">Artículo</label>
+  <div class="form-floating w-100 w-lg-50">
+    <textarea class="form-control" id="articleId" name="articleF" style="height: 100px" required placeholder="Artículo" >{{ detail.article }}</textarea>
+    <label for="articleId" class="form-label mx-2">Artículo</label>
   </div>
   <br>
-  <select class="form-select" aria-label="Default select example" name="category" id="categoryId">
+  <select class="form-select" aria-label="Default select example" name="categoryF" id="categoryId">
       <option selected disabled>Elige una categoría</option>
           {% for category in category %}
               <option value="{{ category.id }}">{{ category.category }}</option>
           {% endfor %}
   </select>
   <br>
-  <div class="mb-3">
+  <div class="mb-3 w-100 w-lg-50">
       <label for="formFileSm" class="form-label">Seleccionar imágenes</label>
       <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
   </div>
   <br>
-  <div class="form-floating">
-      <input type="text" class="form-control" id="ubicacionId" value="{{ detail.location }}" name="ubicacion" required placeholder="Ubicación"/>
+  <div class="form-floating w-100 w-lg-50">
+      <input type="text" class="form-control" id="ubicacionId" value="{{ detail.location }}" name="ubicacionF" required placeholder="Ubicación"/>
       <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
   </div>
   <br>
-  <div class="w-50 btn-section">
-      <button class="btn btn-primary w-50 shadow" type="submit">Modificar noticia</button>
-      <button class="btn btn-secondary w-50 shadow" type="reset">Limpiar</button>
-  </div>
+
 
 </form>
 {% endif %}

@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
-{% if request.user.is_authenticated and perms.core.change_newsstate %}
+{% if request.user.is_authenticated and perms.core.delete_news %}
 <div class="bg-dark shadow rounded p-3 w-100 w-lg-50">
     <h1 class="bg-dark text-light p-3 rounded">Editar noticia</h1>
 <hr>

@@ -338,7 +338,29 @@ def news_feedback(request, news_id):
     pictures = Picture.objects.filter(news_id=news.id)
     states = NewsState.objects.all()
     category = NewsCategory.objects.all()
+    objState = NewsState.objects.get(id=2)
 
+    if request.method == 'POST':
+        titulo = request.POST.get('titleF')
+        articulo = request.POST.get('articleF')
+        categoria = request.POST.get('categoryF')
+        ubicacion = request.POST.get('ubicacionF')
+        fotos = request.FILES.getlist('photo')
+        
+        if categoria:
+            objCategoria = NewsCategory.objects.get(id=categoria)
+            #actualizacion de la tabla
+            news.title = titulo
+            news.article = articulo
+            news.category = objCategoria
+            news.location = ubicacion
+            news.state = objState
+            for foto in fotos:
+                picture = Picture.objects.create(picture=foto, news=detail)
+            news.save()
+            return redirect('news_state')
+        else:
+            messages.error(request,'Debe ingresar una categoria')
     return render(request, 'news_feedback.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states, 'category': category})
 
 def edit_pictures(request, news_id):
