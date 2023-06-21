@@ -20,8 +20,8 @@
             <div class="carousel-item {% if forloop.parentloop.last and forloop.last %}active{% endif %}">
               <h1 class="fw-semibold">{{ i.title }}</h1>
               <a href="{% url 'news_detail' i.id %}" class="d-flex justify-content-center">
-                <div class="img-size">
-                  <img src="{{ picture.picture.url }}" class="card-img-top photo h-100 w-auto" alt="...">
+                <div class="img-size d-flex align-items-center justify-content-center mx-auto">
+                  <img src="{{ picture.picture.url }}" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-caption d-none d-md-block">
                 </div>
@@ -50,16 +50,18 @@
   <div class="gallery-template d-flex flex-row mx-auto gap-5 flex-wrap justify-content-center">
 
     {% for n in news %}
-    {% if n.state.id == 1 and n.premium == 0 %}
-      <div class="card shadow-lg" style="width: 350px; height: 500px">
-        <img src="{{ n.image }}" alt="Imagen de la noticia" class="h-100 w-auto mx-auto">
+    {% if n.state.id == 1 and n.premium == 0 %}    
+      <div class="card shadow-lg d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center preview">
+          <img src="{{ n.image }}" alt="Imagen de la noticia" class="d-block w-100">
+        </div>
         <div class="card-body">
-            <h5 class="card-title text-center text-uppercase">{{ n.title }}</h5>
+            <h5 class="card-title text-center text-capitalize">{{ n.title }}</h5>
             <div class="d-flex justify-content-center">
               <a href="{% url 'news_detail' n.id %}" class="btn btn-primary shadow w-100">Ver noticia</a>
             </div>
           </div>
-        </div>
+        </div>        
         <br>
       {% endif %}
     {% endfor %}

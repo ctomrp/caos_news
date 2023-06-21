@@ -5,7 +5,7 @@
 <h1 class="text-center my-5">Contáctenos</h1>
 <div class="d-flex justify-content-center">
     <br>
-    <form class="row g-3 w-75" method="POST">
+    <form class="row g-3 w-75 w-lg-50" method="POST">
         {% csrf_token %}
         
         <div class="form-floating">
@@ -34,8 +34,8 @@
         </div>
         <br><br><br>
         <div class="col-12 btn-section">
-            <button class="btn btn-primary w-50 shadow" type="submit">Enviar comentario</button>
-            <a href="{% url 'index' %}" class="btn btn-secondary w-50 shadow" type="submit">Cancelar</a>
+            <button class="btn btn-primary w-100 w-lg-50 shadow" type="submit">Enviar comentario</button>
+            <a href="{% url 'index' %}" class="btn btn-secondary w-100 w-lg-50 shadow" type="submit">Cancelar</a>
         </div>
     </form>
 </div>

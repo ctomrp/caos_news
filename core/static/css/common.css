@@ -17,23 +17,7 @@ a h1 {
   text-decoration: none;
 }
 
-.form-template,
-.form-template form {
-  height: 80vh;
-  margin: 0 auto;
-  width: 30vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 1rem;
-  overflow: auto;
-}
-
-.form-template form {
-  width: 80%;
-}
-
+/*div de botones*/
 .btn-section {
   display: flex;
   flex-direction: row;
@@ -41,53 +25,68 @@ a h1 {
   margin: 0 auto;
 }
 
+/*tamaño de vista previa de noticia*/
 .preview {
-  height: 300px;
-  width: 100%;
-  max-width: 100%;
-  max-height: 100%;
+  width: 350px;
+  height: 500px;
 }
 
-.photo {
-  height: 800px;
-  width: 100%;
-}
 
+/*flecha de carousel*/
 .dark-img {
   background-color: black;
   padding: 1rem;
 }
 
+/*tamaño del contenedor de imagen titular*/
 .img-size {
+  max-height: 800px;
   height: 800px;
+  max-width: 800px;
   width: 800px;
+  object-fit: cover;
 }
 
-.img-edit-container {
-  height: 650px;
-}
-
+/*tamaño del contenedor de edicion de imagen*/
 .img-edit-img {
   height: 450px;
 }
 
+/*tamaño del input de edicion de imagen*/
 .img-edit-input {
   height: calc(100% - 450px);
 }
 
+/*color enlace de navbar*/
 .link-opt {
   transition: background-color 0.3s ease-in-out;
   border-radius: 0.25rem;
 }
 
+/*color enlace de navbar*/
 .link-opt:hover,
 .link-opt:focus {
   background-color: #888;
   color: whitesmoke;
 }
 
+/*color enlace de navbar*/
 .link-opt:not(:hover):not(:focus) {
   background-color: transparent;
+}
+
+/*hover para olvido contraseña*/
+.help{
+  transition: .25s;
+}
+
+.help:hover{
+  text-shadow: 0 0 15px black;
+}
+
+/*lista de noticias*/
+.lista-noticias{
+  display: none;
 }
 
 /* Estilos para pantallas medianas */
@@ -99,7 +98,6 @@ a h1 {
     width: 100vw;
   }
 
-  .form-template,
   .btn-section {
     width: 100%;
   }
@@ -107,7 +105,6 @@ a h1 {
   header,
   main,
   footer,
-  .form-template,
   .btn-section {
     display: flex;
     flex-direction: column;
@@ -132,7 +129,6 @@ a h1 {
     width: 100vw;
   }
 
-  .form-template,
   .btn-section {
     width: 100%;
   }
@@ -140,7 +136,6 @@ a h1 {
   header,
   main,
   footer,
-  .form-template,
   .btn-section {
     display: flex;
     flex-direction: column;
@@ -153,5 +148,13 @@ a h1 {
 
   footer {
     display: none;
+  }
+
+  .img-size {
+    max-height: 350px;
+    height: 350px;
+    max-width: 350px;
+    width: 350px;
+    object-fit: cover;
   }
 }
