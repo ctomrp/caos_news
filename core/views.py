@@ -139,9 +139,6 @@ def news_pictures(request, news_id):
     return render(request, 'news_detail.html', {'news': news, 'pictures': pictures})
 
 
-def news_state(request):
-    return render(request, 'news_state.html')
-
 @login_required
 def news_premium(request):
     author_id = request.GET.get('author_id')
@@ -177,13 +174,6 @@ def pictures_gallery(request, news_id):
     pictures = Picture.objects.filter(news_id=news.id)
     return render(request, 'pictures_gallery.html', {'news': news, 'pictures': pictures})
 
-
-def register(request):
-    return render(request, 'register.html')
-
-
-
-
 def journalist(request):
     grupo_periodista = Group.objects.get(name='periodista')
     periodistas = grupo_periodista.user_set.all()
@@ -193,40 +183,37 @@ def recover_password(request):
     return render(request, 'recover_password.html')
 
 def auth_register(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        print(form)
         if form.is_valid():
             username = form.cleaned_data['username']
             name = form.cleaned_data['name']
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
-            email = form.cleaned_data['email'] 
-            User.objects.create_user(username=username,first_name=name,last_name=last_name,password=password,email=email)
-            messages.success(request,'Registro añadido correctamente')
-            print('ola')
-            return(render(request,'login.html'))
-    elif request.method == 'GET':
+            email = form.cleaned_data['email']
+            User.objects.create_user(username=username, first_name=name, last_name=last_name, password=password, email=email)
+            messages.success(request, 'Registro añadido correctamente')
+            return redirect('auth_login')
+        else:
+            messages.error(request, 'Error en el registro. Por favor, corrija los campos resaltados.')
+    else:  # GET request or any other method
         form = RegistrationForm()
-        return render(request, 'register.html', {'form': form})    
-    else:
-        print('no funsiona')
-        form = RegistrationForm()
-    return(render(request,'register.html'))    
+    
+    return render(request, 'auth_register.html', {'form': form})
 
 def auth_login(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         email = request.POST['email']
-        password= request.POST['password']
-        user= authenticate(request,email=email,password=password)
+        password = request.POST['password']
+        user = authenticate(request, email=email, password=password)
         if user is not None:
-            login(request,user)
+            login(request, user)
             return redirect('index')
         else:
-            error='Correo o Contraseña incorrecta!'
-            return render(request, 'login.html',{'error':error})
+            error = 'Correo o Contraseña incorrecta!'
+            return render(request, 'auth_login.html', {'error': error})
     else:
-        return render(request,'login.html')
+        return render(request, 'auth_login.html')
 
 def exit(request):
     logout(request)
@@ -242,28 +229,28 @@ def exit(request):
 
 def contact(request):
     if request.method == 'POST':
-            name = request.POST['nameC']
-            last_name = request.POST['lastnameC']
-            email = request.POST['emailC']
-            email2 = request.POST['email2C']
-            phone = request.POST['phoneC']
-            comment = request.POST['commentC']
-            
-            if email != email2:
-                messages.error(request, 'Los correos no coinciden')
-                return redirect('contact')
-
-            Contacto.objects.create(
-                name=name,
-                last_name=last_name,
-                email=email,
-                phone=phone,
-                comment=comment
-            )
-            messages.success(request, 'Registro añadido correctamente')
+        name = request.POST['name']
+        last_name = request.POST['lastname']
+        email = request.POST['email']
+        email2 = request.POST['email2']
+        phone = request.POST['phone']
+        comment = request.POST['comment']
+        
+        if email != email2:
+            messages.error(request, 'Los correos no coinciden')
             return redirect('contact')
+
+        Contacto.objects.create(
+            name=name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            comment=comment
+        )
+        messages.success(request, 'Registro añadido correctamente')
+        return redirect('contact')
     else:
-        return render(request,'contact.html')   
+        return render(request, 'contact.html')
     
 def buscar(request):
     queryset = request.GET.get("buscar")
@@ -288,58 +275,51 @@ def buscar(request):
             return redirect('journalist')
         elif objCategoria or objNews:
             return redirect('news_gallery')
-    return(render(request,'contact.html'))
+    return(render(request,'index.html'))
 
 
 def news_state(request):
-    author_id = request.GET.get('author_id')
-
     news = News.objects.all()
+    author_id = request.GET.get('author_id')
 
     if author_id:
         news = news.filter(author__id=author_id)
         
     return render(request, 'news_state.html', {'news': news})
 
-def editor_dash(request):
-    return render(request, 'editor_dash.html')
 
 def edit_news(request, news_id):
     news = get_object_or_404(News, id=news_id)
-    detail = News.objects.get(id = news.id)
+    detail = News.objects.get(id=news.id)
     pictures = Picture.objects.filter(news_id=news.id)
     states = NewsState.objects.all()
-    # objFotos = get_object_or_404(Picture,news_id=news_id)
-    #######
+
     if request.method == 'POST':
         news.feedback = request.POST.get('feedback')
-        valorTitular =request.POST.get('titularCheckbox')
+
+        valorTitular = request.POST.get('titularCheckbox')
         valorPremium = request.POST.get('premiumCheckbox')
-        if valorTitular is not None:
-            valorTitular = valorTitular.lower() =='false'
-            if valorTitular:
-                news.headline = True     
-            else:   
-                news.headline= False
+
+        if valorTitular:
+            news.headline = True
         else:
-            news.headline= False        
-        if valorPremium is not None:
-            valorPremium = valorPremium.lower() == 'false'
-            if valorPremium:
-                news.premium = True
-            else:
-                news.premium = False
+            news.headline = False
+
+        if valorPremium:
+            news.premium = True
         else:
-            news.premium = False             
-        #obtener id de la tabla state segun el formulario
-            estado_id = request.POST.get('estadosNoticia')
-            estado = NewsState.objects.get(id=estado_id)
-            news.state = estado           
-            news.save()
-            messages.success(request, 'Edicion guardada  correctamente')
-            return redirect('news_state')
-    else:    
+            news.premium = False
+
+        estado_id = request.POST.get('estadosNoticia')
+        estado = NewsState.objects.get(id=estado_id)
+        news.state = estado
+
+        news.save()
+        messages.success(request, 'Edición guardada correctamente')
+        return redirect('news_state')
+    else:
         return render(request, 'edit_news.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states})
+
 
 def news_feedback(request, news_id):
     news = get_object_or_404(News, id=news_id)
@@ -354,30 +334,30 @@ def edit_pictures(request, news_id):
     pictures = Picture.objects.filter(news_id=news_id)
     news = get_object_or_404(News, id=news_id)
     news_detail_url = reverse('edit_news', args=[news_id])
-    if request.method =='POST':
-        listaFotoP={}
-        valorFotoP = request.POST.get('imgPrincipalRadio')
-        valorFotoA = request.POST.get('imgActiveCheckbox')
-        print(valorFotoP)
-        foto = Picture.objects.filter(news_id=news_id)
-        for i in foto:
-            listaFotoP["valorFotoP"]=(i.id,valorFotoP)
-            listaFotoP.update
-            print(listaFotoP)
-            # if valorFotoP is not None:
-            #     i.principal = True
-            # else:
-            #     i.principal = False    
-            # if valorFotoA is not None:
-            #     i.active = True
-            # else:
-            #     i.active = False
-            i.save()
-            messages.success(request,'Foto Seleccionada guardada con exito')
+
+    if request.method == 'POST':
+        selected_principal = request.POST.get('principal')
+        for picture in pictures:
+            if str(picture.id) == selected_principal:
+                picture.principal = True
+            else:
+                picture.principal = False
+
+            active = request.POST.get('active_{}'.format(picture.id), False)
+            if active:
+                picture.active = True
+            else:
+                picture.active = False
+
+            picture.save()
+
+        messages.success(request, 'Fotos seleccionadas guardadas con éxito')
+
     context = {
         'pictures': pictures,
         'news_id': news_id,
         'news': news,
         'news_detail_url': news_detail_url,
     }
+
     return render(request, 'edit_pictures.html', context)

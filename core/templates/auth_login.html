@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<div class="form-template text-center mt-5">
+    <h1>Ingresar</h1>
+    <br>
+    <form class="row g-3" method="POST">
+        {% csrf_token %}
+
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Correo electrónico"/>
+            <label for="email" class="form-label mx-2">Correo electrónico</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" required placeholder="Contraseña"/>
+            <label for="password" class="form-label mx-2">Contraseña</label>
+        </div>
+        <p class="text-end mt-5 ml-2 mb-0"><a href="{% url 'recover_password' %}" class="help">¿Olvidaste tu Contraseña?</a></p>
+        <br><br><br>
+        <div class="col-12 btn-section">
+            <button class="btn btn-primary w-50 shadow" type="submit">Ingresar</button>
+            <a href="{% url 'index' %}" class="btn btn-secondary w-50 shadow" type="submit">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

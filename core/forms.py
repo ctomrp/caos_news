@@ -7,7 +7,7 @@ from .models import *
 class RegistrationForm(forms.Form):
     username = forms.CharField(min_length=2,max_length=15)
     name = forms.CharField(min_length=3,max_length=15)
-    last_name = forms.CharField(min_length=5,max_length=15)
+    last_name = forms.CharField(min_length=3,max_length=15)
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
     email = forms.EmailField()

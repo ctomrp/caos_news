@@ -6,7 +6,7 @@
   <h1 class="rounded bg-dark p-3 text-light">Estado de noticia</h1>
 </div>
 <br>
-{% if messages%}
+{% if messages %}
             {%for msg in messages%}
               {%if msg.tags == 'error' %}
               <div class="alert alert-danger  alert-dismissible fade show" role="alert">
@@ -35,7 +35,7 @@
         <tbody>
           {% for item in news %}
           {% if user.id == item.author.id and perms.core.add_news %}
-          <tr class="n_fila">
+          <tr>
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ item.title }}</td>
             <td>{{ item.author }}</td>
