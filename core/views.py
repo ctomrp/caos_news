@@ -4,13 +4,14 @@ from django.contrib.auth.models import User, Group
 from django.db.models import Q
 from django.views.generic import ListView
 from .forms import RegistrationForm,crearNoticiaForm
-from .models import *
+from .models import NewsCategory,News,Picture,NewsState,Contacto
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.db import connection
 
 def index(request):
     data = News.objects.filter(headline=True, state_id=1)
@@ -136,6 +137,9 @@ def news_pictures(request, news_id):
     return render(request, 'news_detail.html', {'news': news, 'pictures': pictures})
 
 
+def news_state(request):
+    return render(request, 'news_state.html')
+
 @login_required
 def news_premium(request):
     author_id = request.GET.get('author_id')
@@ -171,28 +175,23 @@ def pictures_gallery(request, news_id):
     pictures = Picture.objects.filter(news_id=news.id)
     return render(request, 'pictures_gallery.html', {'news': news, 'pictures': pictures})
 
+
+def register(request):
+    return render(request, 'register.html')
+
+
+
+
 def journalist(request):
     grupo_periodista = Group.objects.get(name='periodista')
     periodistas = grupo_periodista.user_set.all()
-
-    cantidad = []
-    for periodista in periodistas:
-        raw_query = "SELECT COUNT(*) FROM core_news WHERE author_id = %s"
-        with connection.cursor() as cursor:
-            cursor.execute(raw_query, [periodista.id])
-            resultado = cursor.fetchone()[0]
-            cantidad.append(resultado)
-
-    periodistas_cantidad = zip(periodistas, cantidad)
-
-    return render(request, 'journalist.html', {'periodistas_cantidad': periodistas_cantidad})
-
+    return render(request, 'journalist.html', {'periodistas': periodistas})
 
 def recover_password(request):
     return render(request, 'recover_password.html')
 
 def auth_register(request):
-    if request.method == 'POST':
+    if request.method=='POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -219,18 +218,18 @@ def auth_register(request):
     return render(request, 'auth_register.html', {'form': form})
 
 def auth_login(request):
-    if request.method == 'POST':
+    if request.method=='POST':
         email = request.POST['email']
-        password = request.POST['password']
-        user = authenticate(request, email=email, password=password)
+        password= request.POST['password']
+        user= authenticate(request,email=email,password=password)
         if user is not None:
-            login(request, user)
+            login(request,user)
             return redirect('index')
         else:
-            error = 'Correo o Contraseña incorrecta!'
-            return render(request, 'auth_login.html', {'error': error})
+            error='Correo o Contraseña incorrecta!'
+            return render(request, 'login.html',{'error':error})
     else:
-        return render(request, 'auth_login.html')
+        return render(request,'login.html')
 
 def exit(request):
     logout(request)
@@ -262,7 +261,7 @@ def contact(request):
         messages.get_messages(request).used = True
         return redirect('contact')
     else:
-        return render(request, 'contact.html')
+        return render(request,'contact.html')   
     
 
 class SearchResultsView(ListView):
@@ -294,25 +293,26 @@ class SearchResultsView(ListView):
 
 
 def news_state(request):
-    news = News.objects.all()
     author_id = request.GET.get('author_id')
+
+    news = News.objects.all()
 
     if author_id:
         news = news.filter(author__id=author_id)
         
     return render(request, 'news_state.html', {'news': news})
 
+def editor_dash(request):
+    return render(request, 'editor_dash.html')
 
 def edit_news(request, news_id):
     news = get_object_or_404(News, id=news_id)
-    detail = News.objects.get(id=news.id)
+    detail = News.objects.get(id = news.id)
     pictures = Picture.objects.filter(news_id=news.id)
     states = NewsState.objects.all()
-
     if request.method == 'POST':
         news.feedback = request.POST.get('feedback')
-
-        valorTitular = request.POST.get('titularCheckbox')
+        valorTitular =request.POST.get('titularCheckbox')
         valorPremium = request.POST.get('premiumCheckbox')
 
         if valorTitular:
@@ -336,22 +336,17 @@ def edit_news(request, news_id):
     else:
         return render(request, 'edit_news.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states})
 
-
 def news_feedback(request, news_id):
     news = get_object_or_404(News, id=news_id)
     detail = News.objects.get(id = news.id)
     pictures = Picture.objects.filter(news_id=news.id)
     states = NewsState.objects.all()
     category = NewsCategory.objects.all()
-    objState = NewsState.objects.get(id=2)
-
     if request.method == 'POST':
         titulo = request.POST.get('titleF')
         articulo = request.POST.get('articleF')
         categoria = request.POST.get('categoryF')
         ubicacion = request.POST.get('ubicacionF')
-        fotos = request.FILES.getlist('photo')
-        
         if categoria:
             objCategoria = NewsCategory.objects.get(id=categoria)
             #actualizacion de la tabla
@@ -359,9 +354,6 @@ def news_feedback(request, news_id):
             news.article = articulo
             news.category = objCategoria
             news.location = ubicacion
-            news.state = objState
-            for foto in fotos:
-                picture = Picture.objects.create(picture=foto, news=detail)
             news.save()
             messages.success(request, 'Noticia guardada exitosamente')
             messages.get_messages(request).used = True
@@ -400,5 +392,4 @@ def edit_pictures(request, news_id):
         'news': news,
         'news_detail_url': news_detail_url,
     }
-
     return render(request, 'edit_pictures.html', context)
