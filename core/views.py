@@ -202,6 +202,12 @@ def auth_register(request):
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'El nombre de usuario ingresado ya existe')
+                return redirect('auth_register')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'El correo ingresado ya existe')
+                return redirect('auth_register')
             User.objects.create_user(username=username, first_name=name, last_name=last_name, password=password, email=email)
             messages.success(request, 'Registro añadido correctamente')
             return redirect('auth_login')
