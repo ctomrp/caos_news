@@ -2,75 +2,82 @@
 
 {% block content %}
 {% if request.user.is_authenticated %}
+
 <div class="bg-dark shadow rounded p-3">
   <h1 class="rounded bg-dark p-3 text-light">Estado de noticia</h1>
 </div>
 <br>
+
 {% if messages %}
-            {%for msg in messages%}
-              {%if msg.tags == 'error' %}
-              <div class="alert alert-danger  alert-dismissible fade show" role="alert">
-                <strong>{{ msg }}</strong> 
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div> 
-              {%elif msg.tags == 'success'%}
-              <div class="alert alert-success  alert-dismissible fade show" role="alert">
-                <strong>{{ msg }}</strong> 
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div> 
-              {%  endif %} 
-            {% endfor %}
+  {%for msg in messages%}
+    {%if msg.tags == 'error' %}
+      <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+        <strong>{{ msg }}</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div> 
+    {%elif msg.tags == 'success'%}
+      <div class="alert alert-success  alert-dismissible fade show" role="alert">
+        <strong>{{ msg }}</strong> 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div> 
+    {%  endif %} 
+  {% endfor %}
 {%endif%} 
+
 <br>
-    <table class="table table-striped table-hover shadow-lg mb-5">
-        <thead>
-          <tr>
-            <th scope="col">#id</th>
-            <th scope="col">Título</th>
-            <th scope="col">Editor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Opción</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in news %}
-          {% if user.id == item.author.id and perms.core.add_news %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ item.title }}</td>
-            <td>{{ item.author }}</td>
-            <td>{{ item.state }}</td>
-            {% if item.state.id == 3 %}
-            <td><a class="btn btn-danger shadow" href="{% url 'news_feedback' item.id %}" role="button">Ver detalle</a>
-            {% elif item.state.id == 2 %}
-            <td><a class="btn btn-success shadow" href="{% url 'news_feedback' item.id %}" role="button">Ver detalle</a>
-            {% elif item.state.id == 4 %}
-              <td><a class="btn btn-secondary shadow" href="{% url 'news_feedback' item.id %}" role="button">Ver detalle</a>
-            {% else %}
-            <td><a class="btn btn-primary shadow" href="{% url 'news_detail' item.id %}" role="button">Ver noticia</a>
-            {% endif %}
-            </td>
-          </tr>
-          {% elif perms.core.change_newsstate %}
-          <tr class="n_fila">
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ item.title }}</td>
-            <td>{{ item.author }}</td>
-            <td>{{ item.state }}</td>
-            {% if item.state.id == 3 %}
-            <td><a class="btn btn-danger shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
-            {% elif item.state.id == 2 %}
-            <td><a class="btn btn-success shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
-            {% elif item.state.id == 4 %}
-              <td><a class="btn btn-secondary shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
-            {% else %}
-            <td><a class="btn btn-primary shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
-            {% endif %}
-            </td>
-          </tr>
-          {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
-      {% endif %}
-      {% endblock %}
+<table class="table table-striped table-hover shadow-lg mb-5 text-center">
+  <thead>
+    <tr>
+      <th scope="col" class="col">#id</th>
+      <th scope="col" class="col">Título</th>
+      <th scope="col" class="col">Editor</th>
+      <th scope="col" class="col">Estado</th>
+      <th scope="col" class="col">Opción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in news %}
+    {% if user.id == item.author.id and perms.core.add_news %}
+      <tr>
+        <td class="col">{{ forloop.counter }}</td>
+        <td class="col">{{ item.title }}</td>
+        <td class="col">{{ item.author }}</td>
+        <td class="col">{{ item.state }}</td>
+
+        {% if item.state.id == 3 %}
+        <td class="col"><a class="btn btn-danger shadow" href="{% url 'news_feedback' item.id %}" role="button">Ver detalle</a>
+        {% elif item.state.id == 2 %}
+        <td class="col"><a class="btn btn-success shadow" href="{% url 'news_feedback' item.id %}" role="button">Ver detalle</a>
+        {% elif item.state.id == 4 %}
+        <td class="col"><a class="btn btn-secondary shadow" href="{% url 'news_feedback' item.id %}" role="button">Ver detalle</a>
+        {% else %}
+        <td class="col"><a class="btn btn-primary shadow" href="{% url 'news_detail' item.id %}" role="button">Ver noticia</a>
+        {% endif %}
+        </td>
+        
+      </tr>
+      {% elif perms.core.change_newsstate %}
+      <tr>
+        <td class="col">{{ forloop.counter }}</td>
+        <td class="col">{{ item.title }}</td>
+        <td class="col">{{ item.author }}</td>
+        <td class="col">{{ item.state }}</td>
+
+        {% if item.state.id == 3 %}
+        <td class="col"><a class="btn btn-danger shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
+        {% elif item.state.id == 2 %}
+        <td class="col"><a class="btn btn-success shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
+        {% elif item.state.id == 4 %}
+        <td class="col"><a class="btn btn-secondary shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
+        {% else %}
+        <td class="col"><a class="btn btn-primary shadow" href="{% url 'edit_news' item.id %}" role="button">Editar</a>
+        {% endif %}
+        </td>
+      </tr>
+
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

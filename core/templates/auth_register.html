@@ -4,7 +4,6 @@
 
 <h1 class="text-center my-5">Registrarse</h1>
     <div class="d-flex justify-content-center">
-    {% comment %} <br> {% endcomment %}
     <form class="row g-3 w-50" method="POST" action="" autocomplete="off">
         {% csrf_token %}
 
@@ -41,7 +40,6 @@
             <label for="passwordId2" class="form-label mx-2">Confirme contraseña</label>
         </div>
         <span id="pPasswordid"></span>
-        {% comment %} <br><br><br> {% endcomment %}
         <div class="col-12 btn-section">
             <button class="btn btn-primary w-50 shadow" type="submit">Registrarse</button>
             <a href="{% url 'index' %}" class="btn btn-secondary w-50 shadow" type="submit">Cancelar</a>

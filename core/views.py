@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.db import connection
 
 def index(request):
     data = News.objects.filter(headline=True, state_id=1)
@@ -177,7 +178,19 @@ def pictures_gallery(request, news_id):
 def journalist(request):
     grupo_periodista = Group.objects.get(name='periodista')
     periodistas = grupo_periodista.user_set.all()
-    return render(request, 'journalist.html', {'periodistas': periodistas})
+
+    cantidad = []
+    for periodista in periodistas:
+        raw_query = "SELECT COUNT(*) FROM core_news WHERE author_id = %s"
+        with connection.cursor() as cursor:
+            cursor.execute(raw_query, [periodista.id])
+            resultado = cursor.fetchone()[0]
+            cantidad.append(resultado)
+
+    periodistas_cantidad = zip(periodistas, cantidad)
+
+    return render(request, 'journalist.html', {'periodistas_cantidad': periodistas_cantidad})
+
 
 def recover_password(request):
     return render(request, 'recover_password.html')
