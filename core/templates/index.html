@@ -18,7 +18,7 @@
         {% if i.premium != 1 and i.state_id == 1 %}
           {% if forloop.parentloop.counter0 == forloop.counter0 %}
             <div class="carousel-item {% if forloop.parentloop.last and forloop.last %}active{% endif %}">
-              <h1 class="fw-semibold">{{ i.title }}</h1>
+              <h1 class="fw-semibold healine-title text-wrap text-uppercase">{{ i.title }}</h1>
               <a href="{% url 'news_detail' i.id %}" class="d-flex justify-content-center">
                 <div class="img-size d-flex align-items-center justify-content-center mx-auto">
                   <img src="{{ picture.picture.url }}" class="d-block w-100" alt="...">

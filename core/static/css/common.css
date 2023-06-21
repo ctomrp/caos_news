@@ -30,6 +30,12 @@ a h1 {
   width: 350px;
   height: 500px;
 }
+.healine-title{
+  -webkit-text-stroke: 2px #333333;
+    color: white;
+  position: relative;
+  z-index: 1;
+}
 
 
 /*flecha de carousel*/
