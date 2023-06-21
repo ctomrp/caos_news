@@ -25,7 +25,21 @@
 </div>
 
 <hr>
-
+{% if messages%}
+    {%for msg in messages%}
+        {%if msg.tags == 'error' %}
+              <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> 
+        {%elif msg.tags == 'success'%}
+              <div class="alert alert-success  alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> 
+        {%  endif %} 
+    {% endfor %}
+{%endif%}
   <div class="form-floating w-100 w-lg-50">
     <input type="text" class="form-control" id="titleId" name="titleF" value="{{ detail.title }}" required placeholder="Título"/>
     <label for="titleId" class="form-label mx-2">Título</label>

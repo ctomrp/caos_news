@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User, Group
 from django.db.models import Q
+from django.views.generic import ListView
 from .forms import RegistrationForm,crearNoticiaForm
 from .models import *
 from django.contrib import messages
@@ -22,7 +23,7 @@ def index(request):
         if picture:
             news_item.image = picture.picture.url
         else:
-            news_item.image = 'images/default-image.png'  # Ruta a la imagen por defecto
+            news_item.image = '../static/img/no_image.png'  # Ruta a la imagen por defecto
 
     return render(request, 'index.html', {'data': data, 'pictures': pictures, 'news': news})
 
@@ -71,8 +72,9 @@ def create_news(request):
             # Guardar cada imagen en la tabla Picture asociada a la noticia
             for foto in fotos:
                 picture = Picture.objects.create(picture=foto, news=objNews)
-
-            return redirect('index')
+            messages.success(request, 'Noticia guardada correctamente')
+            messages.get_messages(request).used = True
+            return redirect('news_state')
         else:
             print(form.errors)
     return render(request, 'create_news.html', {'data': data})
@@ -102,14 +104,10 @@ def news_gallery(request):
         if picture:
             news_item.image = picture.picture.url
         else:
-            news_item.image = 'images/default-image.png'  # Ruta a la imagen por defecto
+            news_item.image = '../static/img/no_image.png'  # Ruta a la imagen por defecto
 
     return render(request, 'news_gallery.html', {'news': news})
 
-
-# def pictures_gallery(request, news_id):
-#     pictures = Picture.objects.filter(news_id=news_id)
-#     return render(request, 'pictures_gallery.html', {'pictures': pictures})
 
 def pictures_gallery(request, news_id):
     pictures = Picture.objects.filter(news_id=news_id)
@@ -163,7 +161,7 @@ def news_premium(request):
         if picture:
             news_item.image = picture.picture.url
         else:
-            news_item.image = 'images/default-image.png'  # Ruta a la imagen por defecto
+            news_item.image = '../static/img/no_image.png'  # Ruta a la imagen por defecto
 
     return render(request, 'news_premium.html', {'news': news})
 
@@ -202,11 +200,19 @@ def auth_register(request):
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'El nombre de usuario ingresado ya existe')
+                messages.get_messages(request).used = True
+                return redirect('auth_register')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'El correo ingresado ya existe')
+                messages.get_messages(request).used = True
+                return redirect('auth_register')
             User.objects.create_user(username=username, first_name=name, last_name=last_name, password=password, email=email)
-            messages.success(request, 'Registro añadido correctamente')
             return redirect('auth_login')
         else:
             messages.error(request, 'Error en el registro. Por favor, corrija los campos resaltados.')
+            messages.get_messages(request).used = True
     else:  # GET request or any other method
         form = RegistrationForm()
     
@@ -231,13 +237,6 @@ def exit(request):
     return redirect('auth_login')
 
 
-# def guardar_foto(foto):
-#     # Guardar la foto en la carpeta media
-#     photo_path = os.path.join(settings.MEDIA_ROOT, foto.name)
-#     with open(photo_path, 'wb') as file:
-#         for chunk in foto.chunks():
-#             file.write(chunk)
-
 def contact(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -249,6 +248,7 @@ def contact(request):
         
         if email != email2:
             messages.error(request, 'Los correos no coinciden')
+            messages.get_messages(request).used = True
             return redirect('contact')
 
         Contacto.objects.create(
@@ -259,34 +259,38 @@ def contact(request):
             comment=comment
         )
         messages.success(request, 'Registro añadido correctamente')
+        messages.get_messages(request).used = True
         return redirect('contact')
     else:
         return render(request, 'contact.html')
     
-def buscar(request):
-    queryset = request.GET.get("buscar")
-    search = None
-    if queryset:
-        try:
-            objCategoria = NewsCategory.objects.get(Q(category__icontains=queryset))
-        except NewsCategory.DoesNotExist:
-            objCategoria = None
-        
-        try:
-            objUser = User.objects.get(username__icontains=queryset)
-        except User.DoesNotExist:
-            objUser = None
-        
-        try:
-            objNews = News.objects.get(Q(title__icontains=queryset)|Q(location__icontains=queryset))
-        except News.DoesNotExist:
-            objNews = None
-        
-        if objUser:
-            return redirect('journalist')
-        elif objCategoria or objNews:
-            return redirect('news_gallery')
-    return(render(request,'index.html'))
+
+class SearchResultsView(ListView):
+    model = News
+    template_name = 'search_results.html'
+    context_object_name = 'results'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search_query')
+        print(query)
+        if query:
+            print(query)
+            queryset = News.objects.filter(
+                Q(title__icontains=query) |
+                Q(article__icontains=query) |
+                Q(location__icontains=query) |
+                Q(author_id__username__icontains=query) |
+                Q(author_id__first_name__icontains=query) |
+                Q(author_id__last_name__icontains=query) |
+                Q(category_id__category__icontains=query)
+            )
+            return queryset
+        else:
+            return News.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 def news_state(request):
@@ -327,6 +331,7 @@ def edit_news(request, news_id):
 
         news.save()
         messages.success(request, 'Edición guardada correctamente')
+        messages.get_messages(request).used = True
         return redirect('news_state')
     else:
         return render(request, 'edit_news.html', {'news': news, 'detail': detail, 'pictures': pictures, 'states': states})
@@ -358,6 +363,8 @@ def news_feedback(request, news_id):
             for foto in fotos:
                 picture = Picture.objects.create(picture=foto, news=detail)
             news.save()
+            messages.success(request, 'Noticia guardada exitosamente')
+            messages.get_messages(request).used = True
             return redirect('news_state')
         else:
             messages.error(request,'Debe ingresar una categoria')
@@ -385,6 +392,7 @@ def edit_pictures(request, news_id):
             picture.save()
 
         messages.success(request, 'Fotos seleccionadas guardadas con éxito')
+        messages.get_messages(request).used = True
 
     context = {
         'pictures': pictures,

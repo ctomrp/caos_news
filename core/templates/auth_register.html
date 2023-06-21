@@ -6,7 +6,21 @@
     <div class="d-flex justify-content-center">
     <form class="row g-3 w-75 w-lg-50" method="POST" action="" autocomplete="off">
         {% csrf_token %}
-
+{% if messages %}
+            {%for msg in messages%}
+              {%if msg.tags == 'error' %}
+              <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> 
+              {%elif msg.tags == 'success'%}
+              <div class="alert alert-success  alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> 
+              {%  endif %} 
+            {% endfor %}
+        {%endif%}
         <div class="form-floating">
             <input type="text" class="form-control" id="usernameId" name="username" required placeholder="Username"/>
             <label for="usernameId" class="form-label mx-2">Nombre Usuario</label>

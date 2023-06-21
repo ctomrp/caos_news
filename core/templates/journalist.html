@@ -18,7 +18,7 @@
 
         {% for periodista, cantidad in periodistas_cantidad %}
         <tr>
-          <td class="col">{{ periodista.username }}</td>
+          <td class="col">{{ periodista.first_name }}{{ periodista.last_name }}</td>
           <td class="col"><a class="btn btn-primary shadow" href="{% url 'news_gallery' %}?author_id={{ periodista.id }}" role="button">Ver noticias del reportero</a></td>
           <td class="col">{{ cantidad }}</td>
         </tr>

@@ -30,7 +30,7 @@
     <tr>
       <th scope="col" class="col">#id</th>
       <th scope="col" class="col">Título</th>
-      <th scope="col" class="col">Editor</th>
+      <th scope="col" class="col">Autor</th>
       <th scope="col" class="col">Estado</th>
       <th scope="col" class="col">Opción</th>
     </tr>
@@ -41,7 +41,7 @@
       <tr>
         <td class="col">{{ forloop.counter }}</td>
         <td class="col">{{ item.title }}</td>
-        <td class="col">{{ item.author }}</td>
+        <td class="col">{{ item.author.first_name }}{{ item.author.last_name }}</td>
         <td class="col">{{ item.state }}</td>
 
         {% if item.state.id == 3 %}
@@ -60,7 +60,7 @@
       <tr>
         <td class="col">{{ forloop.counter }}</td>
         <td class="col">{{ item.title }}</td>
-        <td class="col">{{ item.author }}</td>
+        <td class="col">{{ item.author.first_name }}{{ item.author.last_name }}</td>
         <td class="col">{{ item.state }}</td>
 
         {% if item.state.id == 3 %}
