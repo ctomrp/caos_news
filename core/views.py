@@ -8,7 +8,6 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db import connection
 
@@ -32,11 +31,6 @@ def base_context(request):
     categories = NewsCategory.objects.all()
     return {'categories': categories}
 
-
-
-##########################
-#   news
-##########################
 
 @login_required
 @user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 

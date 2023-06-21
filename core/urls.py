@@ -18,7 +18,6 @@ urlpatterns = [
     path('auth_register/',auth_register,name='auth_register'),
     path('auth_login/',auth_login,name='auth_login'),
     path('logout/',exit,name='exit'),
-    path('news_detail/<int:news_id>/', news_detail, name='news_detail'),
     path('pictures_gallery/<int:news_id>/', pictures_gallery, name='pictures_gallery'),
     path('edit_pictures/<int:news_id>/', edit_pictures, name='edit_pictures'),
     path('search_results', SearchResultsView.as_view(), name='search_results'),
