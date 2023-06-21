@@ -2,23 +2,23 @@
 
 {% block content %}
 {% if request.user.is_authenticated and perms.core.add_news %}
-<div class="bg-dark p-3 shadow rounded">
+<div class="bg-dark p-3 shadow rounded w-100">
     <h1 class="bg-dark text-light p-3 rounded">Crear noticia</h1>
 <form class="" method="POST" action="" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="w-50 btn-section">
-        <button class="btn btn-primary w-50 shadow" type="submit">Crear noticia</button>
-        <button class="btn btn-light w-50 shadow" type="reset">Limpiar</button>
+    <div class="w-100 w-lg-50 btn-section">
+        <button class="btn btn-primary w-100 w-lg-50 shadow" type="submit">Crear noticia</button>
+        <button class="btn btn-light w-100 w-lg-50 shadow" type="reset">Limpiar</button>
     </div>
 </div>
     <hr>
 
-    <div class="form-floating">
+    <div class="form-floating w-100 w-lg-50">
         <input type="text" class="form-control" id="titleId" name="title" required placeholder="Título"/>
         <label for="titleId" class="form-label mx-2">Título</label>
     </div>
     <br>
-    <div class="form-floating">
+    <div class="form-floating w-100 w-lg-50">
         <textarea class="form-control" id="articleId" name="article" style="height: 100px" required placeholder="Artículo" ></textarea>
         <label for="articleId" class="form-label mx-2">Artículo</label>
     </div>
@@ -32,12 +32,12 @@
         {% endif %}
     </select>
     <br>
-    <div class="mb-3">
+    <div class="mb-3 w-100 w-lg-50">
         <label for="formFileSm" class="form-label">Seleccionar imágenes</label>
         <input name="photo" class="form-control form-control-sm" id="formFileSm" type="file" multiple>
     </div>
     <br>
-    <div class="form-floating">
+    <div class="form-floating w-100 w-lg-50">
         <input type="text" class="form-control" id="ubicacionId" name="ubicacion" required placeholder="Ubicación"/>
         <label for="ubicacionId" class="form-label mx-2">Ubicación</label>
     </div>

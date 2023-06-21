@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if request.user.is_authenticated and perms.core.change_newsstate %}
-<div class="bg-dark shadow rounded p-3">
+<div class="bg-dark shadow rounded p-3 w-100 w-lg-50">
     <h1 class="bg-dark text-light p-3 rounded">Seleccionar imagen principal</h1>
 <hr>
 <form class="" method="POST" action="" enctype="multipart/form-data">
@@ -27,9 +27,9 @@
 
 <!--opciones de edición-->
     <div class="d-flex flex-row gap-5 bg-secondary p-3 rounded shadow align-items-center">
-        <a href="{% url 'edit_news' news_id=news.id %}" class="btn btn-light col shadow">Volver</a>
-        <div class="d-flex justify-content-center col">
-            <button class="btn btn-primary w-100 shadow" type="submit">Guardar imagen principal</button>
+        <a href="{% url 'edit_news' news_id=news.id %}" class="btn btn-light col shadow w-100 w-lg-50">Volver</a>
+        <div class="d-flex justify-content-center col w-100 w-lg-50">
+            <button class="btn btn-primary w-100 w-lg-50 shadow" type="submit">Guardar imagen principal</button>
         </div>
     </div>
 <br>
@@ -37,6 +37,7 @@
 </div>
 
 <hr>
+<div class="index-template bg-body-tertiary p-3">
 
 <div class="d-flex flex-row flex-wrap justify-content-center gap-5">
     {% for picture in pictures %}
@@ -60,7 +61,7 @@
     <br>
     {% endfor %}    
 </div>
-
+</div>
 </form>
 {% endif %}
 {% endblock %}
