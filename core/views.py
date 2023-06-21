@@ -194,7 +194,7 @@ def recover_password(request):
     return render(request, 'recover_password.html')
 
 def auth_register(request):
-    if request.method == 'POST':
+    if request.method=='POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -202,15 +202,17 @@ def auth_register(request):
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
-            User.objects.create_user(username=username, first_name=name, last_name=last_name, password=password, email=email)
-            messages.success(request, 'Registro añadido correctamente')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'El nombre de usuario ingresado ya existe')
+                return redirect('auth_register')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'El correo ingresado ya existe')
+                return redirect('auth_register')
+            User.objects.create_user(username=username,first_name=name,last_name=last_name,password=password,email=email)
+            messages.success(request,'Registro de usuario añadido correctamente')
             return redirect('auth_login')
-        else:
-            messages.error(request, 'Error en el registro. Por favor, corrija los campos resaltados.')
-    else:  # GET request or any other method
-        form = RegistrationForm()
-    
-    return render(request, 'auth_register.html', {'form': form})
+    else:
+        return render(request,'auth_register.html')
 
 def auth_login(request):
     if request.method == 'POST':
