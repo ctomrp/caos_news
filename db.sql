@@ -2,6 +2,8 @@ create database caos_news;
 
 use caos_news;
 
+ALTER TABLE auth_user ADD CONSTRAINT unique_email UNIQUE (email);
+
 INSERT INTO core_newsstate (state) VALUES 
 ('aprobado')
 ,('pendiente')
