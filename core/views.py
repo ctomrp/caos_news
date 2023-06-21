@@ -10,7 +10,6 @@ from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
 from django.urls import reverse
 
 def index(request):
@@ -33,11 +32,6 @@ def base_context(request):
     categories = NewsCategory.objects.all()
     return {'categories': categories}
 
-
-
-##########################
-#   news
-##########################
 
 @login_required
 @user_passes_test(lambda u: u.groups.filter(name='Periodista').exists(), login_url='index.html') 
