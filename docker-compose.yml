@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  # MySQL
+  caos_news:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - caos_news_vol:/var/lib/mysql
+    networks:
+      - caos_news_net
+
+# Declaración de volúmenes y redes
+volumes:
+  caos_news_vol:
+
+networks:
+  caos_news_net:
